@@ -2,19 +2,10 @@
 
 This project provides an API endpoint that combines AI capabilities with blockchain interactions, allowing you to perform various operations like checking balances, making transfers, and interacting with DeFi protocols using natural language prompts.
 
-## Features
-
-- Natural language processing for blockchain interactions
-- Support for ERC20 token operations (USDC, PEPE, WETH)
-- Uniswap integration (optional)
-- Wallet operations using Viem
-- Base network support
-- OpenAI integration for processing commands
-
 ## Prerequisites
 
-- Node.js (v14 or higher)
-- npm or yarn
+- Node.js (v20.12.2 or higher)
+- pnpm (recommended package manager)
 - Access to Base network RPC endpoint
 - OpenAI API key
 - (Optional) Uniswap API credentials
@@ -22,11 +13,13 @@ This project provides an API endpoint that combines AI capabilities with blockch
 ## Installation
 
 1. Clone the repository
-2. Install dependencies:
+2. Install pnpm if you haven't already:
 ```bash
-npm install
-# or
-yarn install
+npm install -g pnpm
+```
+3. Install dependencies:
+```bash
+pnpm install
 ```
 
 ## Configuration
@@ -42,9 +35,7 @@ You'll need to provide the following parameters when making requests to the API:
 ## Starting the Server
 
 ```bash
-npm start
-# or
-yarn start
+pnpm start
 ```
 
 The server will start on port 3000 by default. You can modify this by setting the `PORT` environment variable.
@@ -92,12 +83,6 @@ curl -X POST http://localhost:3000/generate \
 }
 ```
 
-## Security Considerations
-
-- Never share or commit your private keys or API keys
-- Use environment variables for sensitive information in production
-- Consider implementing rate limiting and additional security measures for production use
-
 ## Supported Operations
 
 The API currently supports:
@@ -111,7 +96,3 @@ The API currently supports:
 The API will return appropriate error messages with HTTP status codes:
 - 400: Bad Request (missing parameters)
 - 500: Internal Server Error (execution failures)
-
-## License
-
-[Add your license information here] 
