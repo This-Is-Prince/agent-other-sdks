@@ -11,6 +11,7 @@ import { uniswap } from "@goat-sdk/plugin-uniswap";
 import { sendETH } from "@goat-sdk/wallet-evm";
 import { viem } from "@goat-sdk/wallet-viem";
 import { debridge } from "@goat-sdk/plugin-debridge";
+import { opensea } from "@goat-sdk/plugin-opensea";
 
 const router: Router = express.Router();
 
@@ -25,6 +26,7 @@ router.post('/generate', async (req: express.Request, res: any) => {
             uniswapApiKey,
             OPENAI_API_KEY,
             debrigeBaseUrl,
+            openseaApiKey,
         } = req.body;
 
         // Validate required parameters
@@ -60,6 +62,10 @@ router.post('/generate', async (req: express.Request, res: any) => {
             }));
         } else {
             plugins.push(debridge());
+        }
+
+        if (openseaApiKey) {
+            plugins.push(opensea(openseaApiKey));
         }
 
         // Get onchain tools

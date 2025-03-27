@@ -20,6 +20,9 @@ importers:
       '@goat-sdk/plugin-erc20':
         specifier: ^0.2.14
         version: 0.2.14(@goat-sdk/core@0.4.9(zod@3.24.2))(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(viem@2.23.14(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.24.2))
+      '@goat-sdk/plugin-opensea':
+        specifier: ^0.1.6
+        version: 0.1.6(@goat-sdk/core@0.4.9(zod@3.24.2))
       '@goat-sdk/plugin-uniswap':
         specifier: ^0.2.15
         version: 0.2.15(@goat-sdk/core@0.4.9(zod@3.24.2))(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(viem@2.23.14(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.24.2))
@@ -422,6 +425,11 @@ packages:
     peerDependencies:
       '@goat-sdk/core': 0.4.9
       viem: 2.23.4
+
+  '@goat-sdk/plugin-opensea@0.1.6':
+    resolution: {integrity: sha512-RSfzruZDpWhcn12hunEerhBNzncS0YJkzLtvuPmIDrR5nbIg9guFZBISfl/X9kL9P+QVlUHBIXVB5FmKGHDfuw==}
+    peerDependencies:
+      '@goat-sdk/core': 0.4.9
 
   '@goat-sdk/plugin-uniswap@0.2.15':
     resolution: {integrity: sha512-mYi5dX5LpH7MsK73ts8dc9C25oFDpEFz2NdTGjOau0P1RiKmbviM905y9OgGFM3RBNbjBKZZ9swZKh4ES85cVQ==}
@@ -5688,6 +5696,11 @@ snapshots:
       - bufferutil
       - typescript
       - utf-8-validate
+
+  '@goat-sdk/plugin-opensea@0.1.6(@goat-sdk/core@0.4.9(zod@3.24.2))':
+    dependencies:
+      '@goat-sdk/core': 0.4.9(zod@3.24.2)
+      zod: 3.23.8
 
   '@goat-sdk/plugin-uniswap@0.2.15(@goat-sdk/core@0.4.9(zod@3.24.2))(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(viem@2.23.14(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.24.2))':
     dependencies:
