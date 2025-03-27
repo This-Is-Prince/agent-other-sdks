@@ -9,6 +9,7 @@ This project provides an API endpoint that combines AI capabilities with blockch
 - Access to Base network RPC endpoint
 - OpenAI API key
 - (Optional) Uniswap API credentials
+- (Optional) DeBridge API endpoint
 
 ## Installation
 
@@ -31,6 +32,7 @@ You'll need to provide the following parameters when making requests to the API:
 - `OPENAI_API_KEY`: Your OpenAI API key
 - (Optional) `uniswapBaseUrl`: Uniswap API base URL
 - (Optional) `uniswapApiKey`: Uniswap API key
+- (Optional) `debrigeBaseUrl`: DeBridge API base URL
 
 ## Starting the Server
 
@@ -42,7 +44,7 @@ The server will start on port 3000 by default. You can modify this by setting th
 
 ## API Usage
 
-### POST /generate
+### POST /goat/generate
 
 This endpoint processes natural language prompts and executes blockchain operations.
 
@@ -55,14 +57,15 @@ This endpoint processes natural language prompts and executes blockchain operati
     "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
     "uniswapBaseUrl": "https://trade-api.gateway.uniswap.org/v1",
     "uniswapApiKey": "YourUniswapApiKey",
-    "OPENAI_API_KEY": "YourOpenAIApiKey"
+    "OPENAI_API_KEY": "YourOpenAIApiKey",
+    "debrigeBaseUrl": "https://your-debridge-api-endpoint.com"
 }
 ```
 
 #### Example cURL Request
 
 ```bash
-curl -X POST http://localhost:3000/generate \
+curl -X POST http://localhost:3000/goat/generate \
   -H "Content-Type: application/json" \
   -d '{
     "prompt": "Show my USDC balance",
@@ -70,7 +73,8 @@ curl -X POST http://localhost:3000/generate \
     "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
     "uniswapBaseUrl": "https://trade-api.gateway.uniswap.org/v1",
     "uniswapApiKey": "YourUniswapApiKey",
-    "OPENAI_API_KEY": "YourOpenAIApiKey"
+    "OPENAI_API_KEY": "YourOpenAIApiKey",
+    "debrigeBaseUrl": "https://your-debridge-api-endpoint.com"
   }'
 ```
 
@@ -90,6 +94,7 @@ The API currently supports:
 - Sending ETH
 - ERC20 token operations
 - Uniswap interactions (when configured)
+- Cross-chain operations via DeBridge
 
 ## Error Handling
 

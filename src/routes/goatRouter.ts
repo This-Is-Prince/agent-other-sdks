@@ -10,6 +10,7 @@ import { PEPE, USDC, WETH, erc20 } from "@goat-sdk/plugin-erc20";
 import { uniswap } from "@goat-sdk/plugin-uniswap";
 import { sendETH } from "@goat-sdk/wallet-evm";
 import { viem } from "@goat-sdk/wallet-viem";
+import { debridge } from "@goat-sdk/plugin-debridge";
 
 const router: Router = express.Router();
 
@@ -23,6 +24,7 @@ router.post('/generate', async (req: express.Request, res: any) => {
             uniswapBaseUrl,
             uniswapApiKey,
             OPENAI_API_KEY,
+            debrigeBaseUrl,
         } = req.body;
 
         // Validate required parameters
@@ -50,6 +52,14 @@ router.post('/generate', async (req: express.Request, res: any) => {
                 baseUrl: uniswapBaseUrl,
                 apiKey: uniswapApiKey,
             }));
+        }
+
+        if (debrigeBaseUrl) {
+            plugins.push(debridge({
+                baseUrl: debrigeBaseUrl
+            }));
+        } else {
+            plugins.push(debridge());
         }
 
         // Get onchain tools
