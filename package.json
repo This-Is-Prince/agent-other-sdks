@@ -29,6 +29,8 @@
     "@goat-sdk/plugin-debridge": "^0.0.7",
     "@goat-sdk/plugin-erc20": "^0.2.14",
     "@goat-sdk/plugin-opensea": "^0.1.6",
+    "@goat-sdk/plugin-polymarket": "^0.3.13",
+    "@goat-sdk/plugin-renzo": "^0.1.8",
     "@goat-sdk/plugin-uniswap": "^0.2.15",
     "@goat-sdk/wallet-evm": "^0.2.11",
     "@goat-sdk/wallet-viem": "^0.2.12",

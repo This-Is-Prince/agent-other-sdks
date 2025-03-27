@@ -12,6 +12,8 @@ import { sendETH } from "@goat-sdk/wallet-evm";
 import { viem } from "@goat-sdk/wallet-viem";
 import { debridge } from "@goat-sdk/plugin-debridge";
 import { opensea } from "@goat-sdk/plugin-opensea";
+import { renzo } from "@goat-sdk/plugin-renzo";
+import { polymarket } from "@goat-sdk/plugin-polymarket";
 
 const router: Router = express.Router();
 
@@ -27,6 +29,9 @@ router.post('/generate', async (req: express.Request, res: any) => {
             OPENAI_API_KEY,
             debrigeBaseUrl,
             openseaApiKey,
+            polymarketApiKey,
+            polymarketSecret,
+            polymarketPassphrase,
         } = req.body;
 
         // Validate required parameters
@@ -47,6 +52,7 @@ router.post('/generate', async (req: express.Request, res: any) => {
         const plugins: any[] = [
             sendETH(),
             erc20({ tokens: [USDC, PEPE, WETH] }),
+            renzo(),
         ].filter(Boolean);
 
         if (uniswapBaseUrl && uniswapApiKey) {
@@ -66,6 +72,17 @@ router.post('/generate', async (req: express.Request, res: any) => {
 
         if (openseaApiKey) {
             plugins.push(opensea(openseaApiKey));
+        }
+
+
+        if (polymarketApiKey && polymarketSecret && polymarketPassphrase) {
+            plugins.push(polymarket({
+                credentials: {
+                    key: polymarketApiKey,
+                    secret: polymarketSecret as string,
+                    passphrase: polymarketPassphrase,
+                },
+            }));
         }
 
         // Get onchain tools
