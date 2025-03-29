@@ -14,6 +14,9 @@ import { debridge } from "@goat-sdk/plugin-debridge";
 import { opensea } from "@goat-sdk/plugin-opensea";
 import { renzo } from "@goat-sdk/plugin-renzo";
 import { polymarket } from "@goat-sdk/plugin-polymarket";
+import { coinmarketcap } from '@goat-sdk/plugin-coinmarketcap';
+import { coingecko } from "@goat-sdk/plugin-coingecko";
+import { ens } from "@goat-sdk/plugin-ens";
 
 const router: Router = express.Router();
 
@@ -32,6 +35,9 @@ router.post('/generate', async (req: express.Request, res: any) => {
             polymarketApiKey,
             polymarketSecret,
             polymarketPassphrase,
+            coinmarketcapApiKey,
+            coingeckoApiKey,
+            isCoingeckoPro,
         } = req.body;
 
         // Validate required parameters
@@ -85,6 +91,21 @@ router.post('/generate', async (req: express.Request, res: any) => {
             }));
         }
 
+        if (coinmarketcapApiKey) {
+            plugins.push(coinmarketcap({
+                apiKey: coinmarketcapApiKey,
+            }));
+        }
+
+        if (coingeckoApiKey) {
+            plugins.push(coingecko({
+                apiKey: coingeckoApiKey,
+                isPro: !!isCoingeckoPro,
+            }));
+        }
+
+        plugins.push(ens({}));
+
         // Get onchain tools
         const tools = await getOnChainTools({
             wallet: viem(walletClient),
@@ -104,6 +125,7 @@ router.post('/generate', async (req: express.Request, res: any) => {
             maxSteps: 10,
             prompt: prompt,
             onStepFinish: (event) => {
+                console.log(event);
                 toolResults.push(event.toolResults);
             },
         });
