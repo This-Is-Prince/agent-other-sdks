@@ -2,97 +2,183 @@
 
 The CoinGecko plugin enables your AI agent to access cryptocurrency market data from CoinGecko, a comprehensive cryptocurrency data provider with information on thousands of tokens.
 
-## Installation
+## API Usage
 
-```bash
-pnpm add @goat-sdk/plugin-coingecko
+To use the CoinGecko plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to cryptocurrency data.
+
+### Required Parameters
+
+```json
+{
+  "prompt": "Your cryptocurrency data query here",
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  "coingeckoApiKey": "your-coingecko-api-key",
+  "isCoingeckoPro": true // or false
+}
 ```
 
-## Configuration
+## Available Tools and Example Prompts
 
-To use the CoinGecko plugin, you need to provide an API key and specify whether you're using the Pro version:
+The CoinGecko plugin provides several tools for accessing cryptocurrency data:
 
-```typescript
-import { coingecko } from "@goat-sdk/plugin-coingecko";
+### Get Trending Coins
 
-// Add the plugin to your GOAT SDK setup
-const plugins = [
-  coingecko({
-    apiKey: "your-coingecko-api-key",
-    isPro: false, // Set to true if you have a CoinGecko Pro subscription
-  }),
-  // other plugins...
-];
-```
-
-## Usage Examples
-
-Once configured, your AI agent can perform the following CoinGecko operations through natural language:
-
-### Price Information
+**Tool:** `coingecko_get_trending_coins`
 
 Example prompts:
-- "What is the current price of Bitcoin according to CoinGecko?"
-- "Show me the price of Ethereum in USD from CoinGecko"
-- "What's the price of Solana in BTC?"
+- "What are the trending coins right now?"
+- "Show me the most popular cryptocurrencies today"
+- "Which coins are trending on CoinGecko?"
+- "Get the hottest coins currently trending"
+- "What cryptocurrencies are gaining popularity today?"
 
-### Market Data
+### Get Coin Prices
 
-Example prompts:
-- "What are the top 10 cryptocurrencies by market cap on CoinGecko?"
-- "What's the 24-hour trading volume of Cardano?"
-- "How much has DOGE's price changed in the last 7 days?"
-
-### Token Information
+**Tool:** `coingecko_get_coin_prices`
 
 Example prompts:
-- "What is the circulating supply of Bitcoin?"
-- "Show me information about the token APE"
-- "What's the all-time high price of Polygon?"
+- "What is the current price of Bitcoin?"
+- "Show me the prices of Ethereum, Solana, and Cardano"
+- "Get the price of PEPE in USD"
+- "What's the market cap of Bitcoin and Ethereum?"
+- "How much is 1 ETH worth in USD with 24-hour change data?"
 
-### Historical Data
+### Search Coins by Keyword
+
+**Tool:** `coingecko_search_coins`
 
 Example prompts:
-- "What was Bitcoin's price 1 year ago?"
-- "Show me Ethereum's price chart for the last month"
-- "How has BNB performed over the last 6 months?"
+- "Search for coins related to AI"
+- "Find all cryptocurrencies with 'meta' in their name"
+- "Look up tokens associated with gaming"
+- "Search for DeFi tokens on CoinGecko"
+- "Find coins related to the word 'exchange'"
 
-## API Response
+### Get Coin Price by Contract Address
 
-When checking cryptocurrency prices, the agent might respond with:
+**Tool:** `coingecko_get_coin_price_by_contract_address`
 
+Example prompts:
+- "What's the price of the token with contract address 0x1234...?"
+- "Get the value of token contract 0xabcd... on Ethereum"
+- "Check the price of smart contract 0x5678... on the Ethereum chain"
+- "Find the current value of ERC-20 token at address 0xefgh..."
+- "How much is the token at contract 0x9876... worth in USD?"
+
+### Get Detailed Coin Data
+
+**Tool:** `coingecko_get_coin_data`
+
+Example prompts:
+- "Show me detailed information about Bitcoin"
+- "Get comprehensive data about Ethereum including market data"
+- "Tell me everything about Solana including developer stats"
+- "What are all the details for Cardano including community data?"
+- "Give me a complete overview of Dogecoin with all available data"
+
+### Get Historical Coin Data
+
+**Tool:** `coingecko_get_historical_data`
+
+Example prompts:
+- "What was the price of Bitcoin on January 1, 2023?"
+- "Show historical data for Ethereum from last week"
+- "How much was Solana worth on December 25, 2022?"
+- "Get historical information for BNB from a month ago"
+- "What was the market cap of ADA on March 15, 2023?"
+
+### Get OHLC Chart Data
+
+**Tool:** `coingecko_get_ohlc_data`
+
+Example prompts:
+- "Show me OHLC data for Bitcoin over the past week"
+- "Get the price candlesticks for Ethereum for the last 30 days"
+- "What's the OHLC chart data for Solana in the past 24 hours?"
+- "Show price candles for XRP over 14 days"
+- "Give me OHLC information for DOT in USD for the past 7 days"
+
+### Get Trending Coin Categories
+
+**Tool:** `coingecko_get_trending_coin_categories`
+
+Example prompts:
+- "What are the top DeFi coins by market cap?"
+- "Show me trending gaming tokens"
+- "List the highest volume NFT-related cryptocurrencies"
+- "What metaverse coins are popular right now?"
+- "Show top 10 Web3 tokens by price increase"
+
+### Get All Coin Categories
+
+**Tool:** `coingecko_get_coin_categories`
+
+Example prompts:
+- "What cryptocurrency categories are available on CoinGecko?"
+- "List all the token categories"
+- "Show me all the different types of crypto categories"
+- "What categories does CoinGecko use to classify coins?"
+- "Get a complete list of cryptocurrency categories"
+
+## API Response Examples
+
+When getting coin prices, the response might look like:
+
+```json
+{
+  "toolResults": [
+    {
+      "name": "coingecko_get_coin_prices",
+      "result": {
+        "bitcoin": {
+          "usd": 57245.83,
+          "usd_market_cap": 1120000000000,
+          "usd_24h_vol": 32500000000,
+          "usd_24h_change": 2.3
+        },
+        "ethereum": {
+          "usd": 3245.67,
+          "usd_market_cap": 352800000000,
+          "usd_24h_vol": 12400000000,
+          "usd_24h_change": 1.5
+        }
+      }
+    }
+  ],
+  "response": "Bitcoin (BTC) is currently trading at $57,245.83 USD (up 2.3% in the last 24h) with a market cap of $1.12T. Ethereum (ETH) is trading at $3,245.67 (up 1.5% in the last 24h) with a market cap of $352.8B."
+}
 ```
-According to CoinGecko, Bitcoin (BTC) is currently trading at $57,245.83 USD.
-24h change: +2.3%
-Market cap: $1.12T
-24h volume: $32.5B
+
+When searching for coins, the response might show:
+
+```json
+{
+  "toolResults": [
+    {
+      "name": "coingecko_search_coins",
+      "result": {
+        "coins": [
+          {
+            "id": "bitcoin-ai",
+            "name": "Bitcoin AI",
+            "symbol": "BTCAI",
+            "market_cap_rank": 789
+          },
+          {
+            "id": "artificial-intelligence",
+            "name": "Artificial Intelligence",
+            "symbol": "AI",
+            "market_cap_rank": 952
+          }
+        ]
+      }
+    }
+  ],
+  "response": "I found 2 coins related to 'AI': Bitcoin AI (BTCAI) with market cap rank #789, and Artificial Intelligence (AI) with market cap rank #952."
+}
 ```
-
-For token information:
-
-```
-APE (ApeCoin) information:
-Current price: $1.25 USD
-Market cap rank: #63
-Market cap: $827.5M
-24h volume: $45.2M
-All-time high: $39.40 (April 28, 2022)
-```
-
-## Required Parameters
-
-For the CoinGecko plugin to work, ensure your API request includes:
-- `coingeckoApiKey`: Your CoinGecko API key
-- `isCoingeckoPro`: Boolean indicating whether you have a CoinGecko Pro subscription
-
-## Obtaining a CoinGecko API Key
-
-To get a CoinGecko API key:
-1. Visit the [CoinGecko API Plans page](https://www.coingecko.com/en/api/pricing)
-2. Sign up for an account
-3. Choose between the free plan or a paid Pro plan
-4. Generate an API key
-5. Use this API key in your configuration
 
 ## API Rate Limits
 
@@ -100,6 +186,4 @@ CoinGecko's API has different rate limits depending on your subscription:
 - Free tier: 10-50 calls per minute
 - Pro plans: Higher rate limits (varies by plan)
 
-The Pro plans also offer additional endpoints and features not available in the free tier.
-
-For more information on CoinGecko's API services, visit the [CoinGecko API Documentation](https://www.coingecko.com/en/api/documentation). 
+The Pro plans also offer additional endpoints and features not available in the free tier. 

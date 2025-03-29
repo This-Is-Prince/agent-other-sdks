@@ -1,89 +1,133 @@
 # OpenSea Plugin
 
-The OpenSea plugin enables your AI agent to interact with OpenSea, the world's largest NFT marketplace. It allows for NFT discovery, price checks, and transaction capabilities.
+The OpenSea plugin enables your AI agent to interact with OpenSea, the world's largest NFT marketplace. It allows for retrieving NFT collection statistics and recent sales data.
 
-## Installation
+## API Usage
 
-```bash
-pnpm add @goat-sdk/plugin-opensea
+To use the OpenSea plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to NFT collections and sales.
+
+### Required Parameters
+
+```json
+{
+  "prompt": "Your OpenSea-related query here",
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  "openseaApiKey": "your-opensea-api-key"
+}
 ```
 
-## Configuration
+## Available Tools and Example Prompts
 
-To use the OpenSea plugin, you need to provide an OpenSea API key:
+The OpenSea plugin provides two main tools for accessing NFT data:
 
-```typescript
-import { opensea } from "@goat-sdk/plugin-opensea";
+### Get NFT Collection Statistics
 
-// Add the plugin to your GOAT SDK setup
-const plugins = [
-  opensea("your-opensea-api-key"),
-  // other plugins...
-];
-```
+**Tool:** `getNftCollectionStatistics`
 
-## Usage Examples
-
-Once configured, your AI agent can perform the following OpenSea operations through natural language:
-
-### NFT Collection Information
+Description: Get statistics for an NFT collection.
 
 Example prompts:
 - "What is the floor price of Bored Ape Yacht Club?"
-- "How many items are in the Azuki collection?"
-- "Show me the top NFT collections by volume"
+- "Show me statistics for the Azuki collection"
+- "What's the trading volume for CryptoPunks?"
+- "Get the floor price and total supply of Doodles"
+- "Show me market stats for World of Women collection"
 
-### NFT Asset Queries
+### Get Recent NFT Sales
 
-Example prompts:
-- "Show NFT #1234 from the Doodles collection"
-- "What's the current price of Bored Ape #5678?"
-- "Who owns CryptoPunk #9012?"
+**Tool:** `getNftSales`
 
-### User NFT Portfolio
-
-Example prompts:
-- "What NFTs do I own?"
-- "Show me all my Ethereum NFTs"
-- "Do I own any Bored Apes?"
-
-### NFT Transactions
+Description: Get recent NFT sales for a collection.
 
 Example prompts:
-- "Buy Doodle #1234 for 3 ETH"
-- "Place a bid on Azuki #5678 for 2 ETH"
-- "Accept the offer for my CryptoPunk #9012"
+- "Show me recent sales from the Bored Ape Yacht Club collection"
+- "What NFTs were recently sold in the CryptoPunks collection?"
+- "Show the last 5 Azuki sales with prices"
+- "Who bought Doodles NFTs recently?"
+- "What were the most recent transactions in the Moonbirds collection?"
 
-## API Response
+## API Response Examples
 
-When checking an NFT collection, the agent might respond with:
+When getting NFT collection statistics, the response might look like:
 
+```json
+{
+  "toolResults": [
+    {
+      "name": "getNftCollectionStatistics",
+      "result": {
+        "total": {
+          "volume": 967123.5,
+          "sales": 54213,
+          "average_price": 17.84,
+          "num_owners": 6389,
+          "market_cap": 285000,
+          "floor_price": 28.5
+        },
+        "one_day": {
+          "volume": 832.5,
+          "sales": 25,
+          "average_price": 33.3,
+          "floor_price": 28.5,
+          "change": 0.05
+        },
+        "seven_day": {
+          "volume": 4532.3,
+          "sales": 145,
+          "average_price": 31.25,
+          "floor_price": 28.5,
+          "change": -0.02
+        }
+      }
+    }
+  ],
+  "response": "The Bored Ape Yacht Club collection has a current floor price of 28.5 ETH. In the last 24 hours, there have been 25 sales with a volume of 832.5 ETH and an average price of 33.3 ETH (up 5% from yesterday). Total all-time volume is 967,123.5 ETH across 54,213 sales, with 6,389 unique owners."
+}
 ```
-The current floor price for Bored Ape Yacht Club is 28.5 ETH.
-Total items: 10,000
-Total owners: 6,389
-Volume traded: 850,324 ETH
-```
 
-For displaying owned NFTs:
+When getting recent NFT sales, the response might show:
 
-```
-You own 3 NFTs:
-1. Doodle #1234
-2. Azuki #5678
-3. CryptoPunk #9012
-```
-
-## Required Parameters
-
-For the OpenSea plugin to work, ensure your API request includes:
-- `walletPrivateKey`: To sign transactions
-- `rpcProviderUrl`: To connect to the blockchain
-- `openseaApiKey`: Your OpenSea API key
-
-## Obtaining an OpenSea API Key
-
-To get an OpenSea API key:
-1. Visit the [OpenSea Developer Portal](https://docs.opensea.io/reference/api-overview)
-2. Follow the instructions to create an API key
-3. Use the provided API key in your configuration 
+```json
+{
+  "toolResults": [
+    {
+      "name": "getNftSales",
+      "result": [
+        {
+          "name": "Bored Ape #8745",
+          "seller": "0x1a2b3c4d5e6f...",
+          "buyer": "0x9a8b7c6d5e4f...",
+          "price": 30.5
+        },
+        {
+          "name": "Bored Ape #2156",
+          "seller": "0x2b3c4d5e6f7a...",
+          "buyer": "0x8b7c6d5e4f3a...",
+          "price": 32.75
+        },
+        {
+          "name": "Bored Ape #4536",
+          "seller": "0x3c4d5e6f7a8b...",
+          "buyer": "0x7c6d5e4f3a2b...",
+          "price": 29.25
+        },
+        {
+          "name": "Bored Ape #9432",
+          "seller": "0x4d5e6f7a8b9c...",
+          "buyer": "0x6d5e4f3a2b1c...",
+          "price": 31.0
+        },
+        {
+          "name": "Bored Ape #1287",
+          "seller": "0x5e6f7a8b9c0d...",
+          "buyer": "0x5e4f3a2b1c0d...",
+          "price": 33.2
+        }
+      ]
+    }
+  ],
+  "response": "Here are the 5 most recent sales from the Bored Ape Yacht Club collection: Bored Ape #8745 sold for 30.5 ETH, Bored Ape #2156 sold for 32.75 ETH, Bored Ape #4536 sold for 29.25 ETH, Bored Ape #9432 sold for 31.0 ETH, and Bored Ape #1287 sold for 33.2 ETH."
+}
+``` 

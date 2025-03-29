@@ -1,93 +1,112 @@
 # Renzo Plugin
 
-The Renzo plugin enables your AI agent to interact with Renzo, a liquid restaking protocol. It allows for ETH staking, rewards tracking, and participation in liquid staking.
+The Renzo plugin enables your AI agent to interact with the Renzo liquid staking protocol. It allows for depositing ETH or ERC20 tokens into Renzo and checking ezETH balances across supported chains.
 
-## Installation
+## API Usage
 
-```bash
-pnpm add @goat-sdk/plugin-renzo
+To use the Renzo plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to Renzo staking.
+
+### Required Parameters
+
+```json
+{
+  "prompt": "Your Renzo-related query here",
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "OPENAI_API_KEY": "YourOpenAIApiKey"
+}
 ```
 
-## Configuration
+## Available Tools and Example Prompts
 
-To use the Renzo plugin, simply add it to your plugins array:
+The Renzo plugin provides tools for staking ETH and managing ezETH:
 
-```typescript
-import { renzo } from "@goat-sdk/plugin-renzo";
+### Deposit ETH into Renzo
 
-// Add the plugin to your GOAT SDK setup
-const plugins = [
-  renzo(),
-  // other plugins...
-];
-```
+**Tool:** `deposit_eth_into_renzo`
 
-## Usage Examples
-
-Once configured, your AI agent can perform the following Renzo operations through natural language:
-
-### Staking Operations
+Description: Deposit ETH into Renzo to receive ezETH (liquid staked ETH).
 
 Example prompts:
-- "Stake 0.5 ETH with Renzo"
-- "Restake my ETH on Renzo"
-- "Unstake 1 ETH from Renzo"
+- "Stake 0.5 ETH on Renzo"
+- "Deposit 1 ETH into Renzo protocol"
+- "Convert 0.1 ETH to ezETH on Base"
+- "Stake my ETH with Renzo on Arbitrum"
+- "Swap 2 ETH for ezETH tokens"
 
-### Reward Tracking
+### Deposit ERC20 LST into Renzo
 
-Example prompts:
-- "What are my Renzo staking rewards?"
-- "How much have I earned from staking on Renzo?"
-- "What's the current APR for ETH staking on Renzo?"
+**Tool:** `deposit_erc20_LST_into_renzo`
 
-### Liquid Staking Tokens
-
-Example prompts:
-- "What is my ezETH balance?"
-- "Convert my ezETH back to ETH"
-- "What's the exchange rate between ETH and ezETH?"
-
-### Protocol Information
+Description: Deposit ERC20 Liquid Staking Tokens into Renzo (requires prior approval).
 
 Example prompts:
-- "Tell me about Renzo protocol"
-- "What validators does Renzo use?"
-- "Is Renzo audited?"
+- "Deposit 100 stETH to Renzo"
+- "Convert my rETH tokens to ezETH via Renzo"
+- "Stake my liquid staking tokens in Renzo"
+- "Deposit 50 cbETH tokens to Renzo protocol"
+- "Swap my LST tokens for ezETH on Base"
 
-## API Response
+### Check ezETH Balance
 
-When staking ETH with Renzo, the agent might respond with:
+**Tool:** `check_ezeth_balance_in_renzo`
 
+Description: Check the ezETH balance of an address.
+
+Example prompts:
+- "What's my ezETH balance?"
+- "Check how much ezETH I have in my wallet"
+- "Show me the ezETH balance for address 0x123..."
+- "How many ezETH tokens do I own on Base?"
+- "Get my Renzo liquid staking token balance"
+
+### Get Renzo Deposit Address
+
+**Tool:** `renzo_get_deposit_address`
+
+Description: Get the Renzo deposit contract address for the current chain.
+
+Example prompts:
+- "What's the Renzo deposit address on Base?"
+- "Show me the contract address for depositing into Renzo"
+- "Get the Renzo deposit contract address for Arbitrum"
+- "What address should I send ETH to for Renzo staking?"
+- "Display the Renzo deposit smart contract"
+
+## API Response Examples
+
+When depositing ETH into Renzo, the response might look like:
+
+```json
+{
+  "toolResults": [
+    {
+      "name": "deposit_eth_into_renzo",
+      "result": "0x123abc456def789ghi..."
+    }
+  ],
+  "response": "I've deposited 1 ETH into Renzo for you. The transaction has been submitted with hash 0x123abc456def789ghi... You'll receive ezETH in your wallet once the transaction is confirmed."
+}
 ```
-Successfully staked 0.5 ETH with Renzo.
-Transaction hash: 0xabcd...
-You received 0.498 ezETH in return.
-Current APR: 3.75%
+
+When checking an ezETH balance, the response might look like:
+
+```json
+{
+  "toolResults": [
+    {
+      "name": "check_ezeth_balance_in_renzo",
+      "result": "1000000000000000000"
+    }
+  ],
+  "response": "Your ezETH balance is 1.0 ezETH."
+}
 ```
 
-For reward information:
+## About Renzo
 
-```
-Your Renzo staking rewards:
-Total staked: 2.5 ETH
-Total rewards: 0.075 ETH
-Current APR: 3.75%
-```
+Renzo is a liquid staking protocol that allows users to stake their ETH and receive ezETH in return. ezETH is a liquid staking token that represents staked ETH and can be used in DeFi applications while continuing to earn staking rewards.
 
-## Required Parameters
+The protocol operates across multiple chains including Mode, Base, Arbitrum, BSC, and Linea, providing cross-chain liquidity for staked ETH.
 
-For the Renzo plugin to work, ensure your API request includes:
-- `walletPrivateKey`: To sign transactions
-- `rpcProviderUrl`: To connect to the blockchain
-
-## About Renzo Protocol
-
-Renzo is a liquid restaking protocol that allows users to stake their ETH and receive a liquid staking token (ezETH) in return. This token can be used in various DeFi applications while the underlying ETH continues to earn staking rewards. 
-
-Renzo's key features include:
-- Non-custodial staking
-- Competitive APRs
-- Liquid staking tokens usable across DeFi
-- Protocol-owned validators
-
-For more information, visit the [Renzo Protocol website](https://renzo.fi/). 
+Note: Before depositing ERC20 tokens into Renzo, you must first approve the Renzo contract to spend your tokens. 

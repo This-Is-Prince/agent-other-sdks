@@ -1,10 +1,10 @@
 # Uniswap Plugin
 
-The Uniswap plugin enables your AI agent to interact with the Uniswap protocol for decentralized token swaps, liquidity provision, and price checks.
+The Uniswap plugin enables your AI agent to interact with Uniswap, a leading decentralized exchange protocol. It allows for token swapping across multiple EVM chains, including Ethereum, Polygon, Arbitrum, Base, Optimism, and more.
 
 ## API Usage
 
-To use the Uniswap plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to Uniswap operations.
+To use the Uniswap plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to token swapping.
 
 ### Required Parameters
 
@@ -14,113 +14,123 @@ To use the Uniswap plugin via the API, make a POST request to the `/goat/generat
   "walletPrivateKey": "0xYourPrivateKey",
   "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
   "OPENAI_API_KEY": "YourOpenAIApiKey",
-  "uniswapBaseUrl": "https://trade-api.gateway.uniswap.org/v1",
+  "uniswapBaseUrl": "https://api.uniswap.org/v1",
   "uniswapApiKey": "your-uniswap-api-key"
 }
 ```
 
 ## Available Tools and Example Prompts
 
-The Uniswap plugin supports various DeFi operations. Here are the primary functions and example prompts:
+The Uniswap plugin provides tools for token swapping and approval management:
 
-### Price Quotes
+### Check Token Approval
 
-**Tool:** `getQuote`
+**Tool:** `uniswap_check_approval`
 
-Example prompts:
-- "What is the price of 1 ETH in USDC on Uniswap?"
-- "How much USDC would I get for 10 ETH?"
-- "Check the exchange rate between USDC and PEPE"
-- "If I trade 100 USDC for ETH, how much ETH will I receive?"
-- "What's the current swap rate for WETH to USDC with 0.5% slippage?"
-
-### Token Swaps
-
-**Tool:** `swap`
+Description: Check if the wallet has enough approval for a token and execute the approval transaction if needed. This must be done before swapping tokens.
 
 Example prompts:
-- "Swap 0.1 ETH for USDC on Uniswap"
-- "Trade 100 USDC for PEPE"
-- "Exchange 50 USDC to ETH with 0.5% slippage"
-- "Buy 100 PEPE tokens using USDC"
-- "Convert 0.25 ETH to USDC and set max slippage to 1%"
+- "Check if I've approved USDC for trading on Uniswap"
+- "Do I need to approve 100 DAI before swapping on Uniswap?"
+- "Give Uniswap permission to use my UNI tokens"
+- "Approve 50 LINK tokens for trading on Uniswap"
+- "See if I need to set token allowance for Uniswap to trade my WETH"
 
-### Liquidity Pool Information
+### Get Swap Quote
 
-**Tool:** `getPoolInfo`
+**Tool:** `uniswap_get_quote`
 
-Example prompts:
-- "Show me information about the ETH/USDC pool on Uniswap"
-- "What's the TVL of the PEPE/USDC pool?"
-- "How much liquidity is in the ETH/USDC pool?"
-- "What are the fees for the WETH/USDC pool?"
-- "Show me the volume of the PEPE/ETH pool in the last 24 hours"
-
-### Adding Liquidity
-
-**Tool:** `addLiquidity`
+Description: Get a quote for swapping tokens on Uniswap, showing expected output amount, price impact, and gas fees.
 
 Example prompts:
-- "Add liquidity to the ETH/USDC pool on Uniswap"
-- "Provide 0.1 ETH and equivalent USDC to the liquidity pool"
-- "I want to become a liquidity provider for PEPE/USDC"
-- "Add 500 USDC and matching ETH to Uniswap"
-- "Contribute to the ETH/USDC pool with 1:1 ratio"
+- "How much ETH will I get for 1000 USDC on Uniswap?"
+- "Get a quote for swapping 0.5 ETH to USDC"
+- "What's the current exchange rate between DAI and WETH on Uniswap?"
+- "Check the price impact for trading 100 UNI to ETH"
+- "How much LINK can I get for 50 USDC on Optimism?"
 
-### Removing Liquidity
+### Swap Tokens
 
-**Tool:** `removeLiquidity`
+**Tool:** `uniswap_swap_tokens`
+
+Description: Execute a token swap on Uniswap. This tool will automatically handle quotes and execute the transaction.
 
 Example prompts:
-- "Remove my liquidity from the PEPE/USDC pool"
-- "Withdraw all my funds from the ETH/USDC pool"
-- "Take out 50% of my liquidity from Uniswap"
-- "Exit the WETH/USDC liquidity position"
-- "Redeem my LP tokens for ETH and USDC"
+- "Swap 100 USDC for ETH on Uniswap"
+- "Trade 0.5 ETH for USDC using Uniswap"
+- "Exchange my DAI for WETH on Uniswap"
+- "Use Uniswap to convert 50 UNI tokens to ETH"
+- "Swap 200 LINK for USDC on Base using Uniswap"
 
 ## API Response Examples
 
-When getting a price quote, the response might look like:
+When checking token approval, the response might look like:
 
 ```json
 {
   "toolResults": [
     {
-      "name": "getQuote",
+      "name": "uniswap_check_approval",
       "result": {
-        "inputToken": "ETH",
-        "outputToken": "USDC",
-        "inputAmount": "1000000000000000000",
-        "formattedInputAmount": "1",
-        "outputAmount": "3245670000",
-        "formattedOutputAmount": "3245.67",
-        "priceImpact": "0.05"
+        "status": "approved",
+        "txHash": "0x123abc456def789ghi..."
       }
     }
   ],
-  "response": "1 ETH is currently worth 3,245.67 USDC on Uniswap. The price impact for this trade would be 0.05%."
+  "response": "I've approved your USDC tokens for trading on Uniswap. The approval transaction has been submitted with hash 0x123abc456def789ghi... Now you can proceed with the swap."
 }
 ```
 
-When performing a swap, the response might include:
+When getting a quote, the response might look like:
 
 ```json
 {
   "toolResults": [
     {
-      "name": "swap",
+      "name": "uniswap_get_quote",
       "result": {
-        "txHash": "0xabcd1234...",
-        "inputToken": "ETH",
-        "outputToken": "USDC",
-        "inputAmount": "100000000000000000",
-        "formattedInputAmount": "0.1",
-        "outputAmount": "324567000",
-        "formattedOutputAmount": "324.567",
-        "slippage": "0.005"
+        "routing": "CLASSIC",
+        "quote": {
+          "chainId": 1,
+          "swapper": "0xYourAddress",
+          "input": {
+            "token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            "amount": "1000000000"
+          },
+          "output": {
+            "token": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            "amount": "450000000000000000"
+          },
+          "priceImpact": 0.5,
+          "gasFeeUSD": "5.23"
+        }
       }
     }
   ],
-  "response": "Successfully swapped 0.1 ETH for 324.567 USDC on Uniswap. Transaction hash: 0xabcd1234..."
+  "response": "For 1000 USDC, you will receive approximately 0.45 ETH. The price impact is 0.5% and the gas fee is about $5.23."
 }
-``` 
+```
+
+When swapping tokens, the response might look like:
+
+```json
+{
+  "toolResults": [
+    {
+      "name": "uniswap_swap_tokens",
+      "result": {
+        "txHash": "0x456def789ghi123abc..."
+      }
+    }
+  ],
+  "response": "I've swapped 1000 USDC for approximately 0.45 ETH on Uniswap. The transaction has been submitted with hash 0x456def789ghi123abc... The tokens will be in your wallet once the transaction is confirmed."
+}
+```
+
+## About Uniswap
+
+Uniswap is a decentralized exchange protocol that enables automated, permissionless token swaps on Ethereum and other EVM-compatible blockchains. It uses automated market maker (AMM) technology to determine token prices based on the ratio of tokens in liquidity pools.
+
+The protocol is available on multiple chains including Ethereum, Polygon, Arbitrum, Base, Optimism, Avalanche, Celo, and Zora. Swaps can be performed within the same chain or across different chains when cross-chain functionality is supported.
+
+Note: Before swapping tokens on Uniswap, you must first approve the Uniswap router contract to spend your tokens. The plugin's check_approval tool handles this automatically. 
