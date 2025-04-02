@@ -4,7 +4,7 @@ import { generateText } from "ai";
 import { http } from "viem";
 import { createWalletClient } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { base } from "viem/chains";
+import { base, mainnet, sepolia, baseSepolia, polygon } from "viem/chains";
 import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
 import { PEPE, USDC, WETH, erc20 } from "@goat-sdk/plugin-erc20";
 import { uniswap } from "@goat-sdk/plugin-uniswap";
@@ -38,6 +38,7 @@ router.post('/generate', async (req: express.Request, res: any) => {
             coinmarketcapApiKey,
             coingeckoApiKey,
             isCoingeckoPro,
+            chain,
         } = req.body;
 
         // Validate required parameters
@@ -47,12 +48,26 @@ router.post('/generate', async (req: express.Request, res: any) => {
             });
         }
 
+        let _chain: any = base;
+
+        if (chain === 'base') {
+            _chain = base;
+        } else if (chain === 'baseSepolia') {
+            _chain = baseSepolia;
+        } else if (chain === 'mainnet') {
+            _chain = mainnet;
+        } else if (chain === 'sepolia') {
+            _chain = sepolia;
+        } else if (chain === 'polygon') {
+            _chain = polygon;
+        }
+
         // Create wallet client
         const account = privateKeyToAccount(walletPrivateKey as `0x${string}`);
         const walletClient = createWalletClient({
             account: account,
             transport: http(rpcProviderUrl),
-            chain: base,
+            chain: _chain,
         });
 
         const plugins: any[] = [
