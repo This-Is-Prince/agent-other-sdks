@@ -17,6 +17,7 @@ import { polymarket } from "@goat-sdk/plugin-polymarket";
 import { coinmarketcap } from '@goat-sdk/plugin-coinmarketcap';
 import { coingecko } from "@goat-sdk/plugin-coingecko";
 import { ens } from "@goat-sdk/plugin-ens";
+import { crossmintHeadlessCheckout } from "@goat-sdk/plugin-crossmint-headless-checkout";
 
 const router: Router = express.Router();
 
@@ -39,6 +40,7 @@ router.post('/generate', async (req: express.Request, res: any) => {
             coingeckoApiKey,
             isCoingeckoPro,
             chain,
+            crossmintApiKey,
         } = req.body;
 
         // Validate required parameters
@@ -116,6 +118,12 @@ router.post('/generate', async (req: express.Request, res: any) => {
             plugins.push(coingecko({
                 apiKey: coingeckoApiKey,
                 isPro: !!isCoingeckoPro,
+            }));
+        }
+
+        if (crossmintApiKey) {
+            plugins.push(crossmintHeadlessCheckout({
+                apiKey: crossmintApiKey,
             }));
         }
 
