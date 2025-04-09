@@ -13,7 +13,18 @@ To use the ERC20 plugin via the API, make a POST request to the `/goat/generate`
   "prompt": "Your ERC20-related query here",
   "walletPrivateKey": "0xYourPrivateKey",
   "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
-  "OPENAI_API_KEY": "YourOpenAIApiKey"
+  
+  // Choose ONE of the following model provider API keys
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  // or any other supported model:
+  // "ANTHROPIC_API_KEY", "GROQ_API_KEY", "MISTRAL_API_KEY", "XAI_API_KEY", 
+  // "DEEPSEEK_API_KEY", "PERPLEXITY_API_KEY"
+  
+  // Optional: specify which model to use
+  "modelName": "gpt-4o",
+  
+  // Optional: specify which chain to use (defaults to Base)
+  "chain": "base" // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
 }
 ```
 
@@ -24,6 +35,8 @@ The ERC20 plugin supports operations for USDC, PEPE, and WETH tokens. Here are t
 ### Checking Token Balances
 
 **Tool:** `getBalance`
+
+Description: Check the balance of a specific ERC20 token in your wallet.
 
 Example prompts:
 - "What's my USDC balance?"
@@ -36,6 +49,8 @@ Example prompts:
 
 **Tool:** `transfer`
 
+Description: Send ERC20 tokens to another address.
+
 Example prompts:
 - "Send 10 USDC to 0x1234..."
 - "Transfer 5 PEPE to 0xabcd..."
@@ -45,6 +60,8 @@ Example prompts:
 ### Getting Token Information
 
 **Tool:** `getMetadata`
+
+Description: Retrieve metadata information about an ERC20 token.
 
 Example prompts:
 - "What's the total supply of USDC?"
@@ -57,6 +74,8 @@ Example prompts:
 
 **Tool:** `approve`
 
+Description: Approve a contract or address to spend a specific amount of your tokens.
+
 Example prompts:
 - "Approve Uniswap to spend 100 USDC"
 - "Give permission to 0x1234... to spend 50 PEPE tokens"
@@ -65,6 +84,8 @@ Example prompts:
 ### Checking Allowances
 
 **Tool:** `getAllowance`
+
+Description: Check how many tokens you've approved a specific address to spend.
 
 Example prompts:
 - "How much USDC did I approve for Uniswap?"

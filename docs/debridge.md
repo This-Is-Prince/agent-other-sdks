@@ -1,6 +1,6 @@
 # DeBridge Plugin
 
-The DeBridge plugin enables your AI agent to perform cross-chain operations and transfers between different blockchain networks.
+The DeBridge plugin enables your AI agent to interact with DeBridge's cross-chain infrastructure, allowing for token transfers and operations between different blockchain networks.
 
 ## API Usage
 
@@ -10,99 +10,131 @@ To use the DeBridge plugin via the API, make a POST request to the `/goat/genera
 
 ```json
 {
-  "prompt": "Your cross-chain transfer query here",
+  "prompt": "Your DeBridge-related query here",
   "walletPrivateKey": "0xYourPrivateKey",
   "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "debrigeBaseUrl": "https://your-debridge-api-endpoint.com", // Optional
+  
+  // Choose ONE of the following model provider API keys
   "OPENAI_API_KEY": "YourOpenAIApiKey",
-  "debrigeBaseUrl": "https://your-debridge-api-endpoint.com" // Optional, default endpoint is used if not provided
+  // or any other supported model:
+  // "ANTHROPIC_API_KEY", "GROQ_API_KEY", "MISTRAL_API_KEY", "XAI_API_KEY", 
+  // "DEEPSEEK_API_KEY", "PERPLEXITY_API_KEY"
+  
+  // Optional: specify which model to use
+  "modelName": "gpt-4o",
+  
+  // Optional: specify which chain to use (defaults to Base)
+  "chain": "base" // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
 }
 ```
 
 ## Available Tools and Example Prompts
 
-The DeBridge plugin supports various cross-chain operations. Here are the primary functions and example prompts:
+The DeBridge plugin provides tools for cross-chain operations:
 
 ### Get Bridge Quote
 
 **Tool:** `get_bridge_quote`
 
-Description: Get a quote for bridging tokens between chains. Use get_token_info first to get correct token addresses.
+Description: Get a quote for bridging tokens between chains.
 
 Example prompts:
-- "Get a quote for bridging 0.1 ETH from Ethereum to Solana"
-- "How much USDC will I receive if I bridge 100 USDC from Base to Arbitrum?"
-- "What are the fees to transfer 50 USDT from Base to Optimism?"
-- "Calculate the estimated amount I'll get if I send 1 ETH to Polygon"
-- "Show me an estimate for sending 25 USDC from Base to Ethereum"
+- "How much will it cost to bridge 100 USDC from Ethereum to Base?"
+- "Get a quote for transferring 50 USDT from Polygon to Arbitrum"
+- "What's the fee for bridging 25 ETH from Base to Optimism?"
+- "Show me the gas cost for moving USDC from Ethereum to Avalanche"
+- "Calculate fees for transferring 1000 USDC from Base to Polygon"
 
 ### Create Bridge Order
 
 **Tool:** `create_bridge_order`
 
-Description: Create a bridge order to transfer tokens between chains. The tool handles cross-chain transfers between EVM chains and to/from Solana.
+Description: Create a bridge order for transferring tokens between chains.
 
 Example prompts:
-- "Create an order to bridge 0.1 ETH from Base to Ethereum"
-- "Transfer 100 USDC from Base to my address on Arbitrum"
-- "Send 50 USDT to my wallet on Solana"
-- "Bridge 200 USDC from Base to Optimism at address 0x1234..."
-- "Create a transfer of 0.5 ETH to my Polygon wallet"
+- "Bridge 100 USDC from Ethereum to Base"
+- "Transfer 50 USDT from Polygon to Arbitrum"
+- "Send 25 ETH from Base to Optimism"
+- "Move 1000 USDC from Base to Polygon"
+- "Bridge 10 ETH from Ethereum to Avalanche"
 
 ### Get Token Information
 
 **Tool:** `get_token_info`
 
-Description: Get token information from a chain. For EVM: use 0x-prefixed address. For Solana: use base58 token address.
+Description: Retrieve information about tokens on various chains.
 
 Example prompts:
-- "Show me the token information for USDC on Ethereum"
-- "Get details about ETH on Base"
-- "What tokens are available on Solana?"
-- "Find information about the token at address 0x1234... on Arbitrum"
-- "Search for tokens with 'USD' in their name on Base"
+- "Show me information about USDC on Ethereum"
+- "What's the contract address of WETH on Base?"
+- "Get token details for USDT on Polygon"
+- "Show me USDC information across all supported chains"
+- "What are the decimals for DAI on Arbitrum?"
 
 ### Get Supported Chains
 
 **Tool:** `get_supported_chains`
 
-Description: Get a list of all chains supported by DeBridge protocol.
+Description: List all supported blockchain networks.
 
 Example prompts:
-- "What chains does DeBridge support?"
-- "List all the blockchain networks available for bridging"
-- "Is Solana supported by DeBridge?"
-- "Show me the supported networks for cross-chain transfers"
-- "What are the chain IDs for networks supported by DeBridge?"
+- "Which blockchains does DeBridge support?"
+- "What chains can I bridge tokens between?"
+- "Show me all the networks supported by DeBridge"
+- "List the available chains for cross-chain transfers"
+- "What blockchains can I use with DeBridge?"
 
 ### Execute Bridge Transaction
 
 **Tool:** `execute_bridge_transaction`
 
-Description: Execute a bridge transaction using tx data from create_bridge_order tool. Always asks for confirmation before proceeding.
+Description: Execute prepared bridge transactions.
 
 Example prompts:
-- "Execute the bridge transaction I just created"
-- "Confirm and send my cross-chain transfer"
-- "Process my bridge order to Arbitrum"
-- "Complete my token transfer to Solana"
-- "Submit the bridging transaction we just prepared"
+- "Execute the bridge transaction to send 100 USDC to Base"
+- "Complete my token bridge from Ethereum to Arbitrum"
+- "Finalize the cross-chain transfer"
+- "Submit my prepared bridge transaction"
+- "Execute the pending bridge order"
 
 ### Check Transaction Status
 
 **Tool:** `check_transaction_status`
 
-Description: Check the status of bridge transactions using their transaction hash.
+Description: Check the status of executed transactions.
 
 Example prompts:
-- "What's the status of my bridge transaction with hash 0xabcd...?"
-- "Has my transfer to Arbitrum been completed?"
-- "Check if my cross-chain transaction went through"
-- "Track my DeBridge transfer with transaction hash 0x1234..."
-- "Is my token bridge to Solana done yet?"
+- "Check the status of my bridge transaction"
+- "Has my token transfer from Ethereum to Base completed?"
+- "Is my cross-chain transaction still pending?"
+- "What's the status of my Polygon to Arbitrum bridge?"
+- "Has my bridge transaction been confirmed yet?"
 
 ## API Response Examples
 
-When creating a bridge order, the response might look like:
+When getting a bridge quote, the response might look like:
+
+```json
+{
+  "toolResults": [
+    {
+      "name": "get_bridge_quote",
+      "result": {
+        "sourceTxFeeInUsd": 2.5,
+        "destinationTxFeeInUsd": 0.8,
+        "protocolFeeInUsd": 1.2,
+        "totalFeeInUsd": 4.5,
+        "amountToReceive": "99.25",
+        "estimatedTimeInMinutes": 15
+      }
+    }
+  ],
+  "response": "To bridge 100 USDC from Ethereum to Base, you'll pay approximately $4.50 in total fees. This includes $2.50 for the source chain transaction, $0.80 for the destination chain transaction, and $1.20 in protocol fees. You'll receive about 99.25 USDC on Base, and the process should take around 15 minutes to complete."
+}
+```
+
+When creating a bridge order, the response might include:
 
 ```json
 {
@@ -110,51 +142,30 @@ When creating a bridge order, the response might look like:
     {
       "name": "create_bridge_order",
       "result": {
-        "tx": {
-          "to": "0x663F3ad617193148711d28f5334eE4Ed07016602",
-          "data": "0x12345...",
-          "value": "1000000000000000"
-        },
-        "orderId": "0x67890...",
-        "srcChain": "Base",
-        "srcToken": {
-          "symbol": "ETH",
-          "decimals": 18
-        },
-        "dstChain": "Ethereum",
-        "dstToken": {
-          "symbol": "ETH",
-          "decimals": 18
-        },
-        "amount": "0.1",
-        "fee": "0.001",
-        "estimatedGas": "250000"
+        "orderId": "deb-123456",
+        "sourceChain": "ethereum",
+        "destinationChain": "base",
+        "tokenSymbol": "USDC",
+        "amount": "100",
+        "txHash": "0xabcd1234...",
+        "estimatedTimeInMinutes": 15
       }
     }
   ],
-  "response": "I've created a bridge order to transfer 0.1 ETH from Base to Ethereum. The gas fee is approximately 0.001 ETH. Would you like me to execute this transaction?"
+  "response": "I've created a bridge order to transfer 100 USDC from Ethereum to Base. The transaction has been submitted with hash 0xabcd1234... and order ID deb-123456. The transfer should complete in approximately 15 minutes."
 }
 ```
 
-When checking the status of a transaction, the response might include:
+## About DeBridge
 
-```json
-{
-  "toolResults": [
-    {
-      "name": "check_transaction_status",
-      "result": [
-        {
-          "status": "Fulfilled",
-          "orderId": "0x67890...",
-          "orderLink": "https://app.debridge.finance/order?orderId=0x67890..."
-        }
-      ]
-    }
-  ],
-  "response": "Your bridge transaction has been successfully completed! The tokens have been delivered to the destination chain. You can view the details at https://app.debridge.finance/order?orderId=0x67890..."
-}
-```
+DeBridge is a cross-chain interoperability and liquidity transfer protocol that enables the decentralized transfer of arbitrary data and assets between various blockchains. The protocol provides a secure infrastructure for cross-chain exchanges and applications.
+
+Key features include:
+- Cross-chain token transfers
+- Cross-chain messaging
+- Arbitrary data transfer between blockchains
+- Support for multiple EVM and non-EVM chains
+- Decentralized validation for enhanced security
 
 ## Supported Chains
 

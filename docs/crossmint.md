@@ -13,8 +13,16 @@ To use the Crossmint plugin via the API, make a POST request to the `/goat/gener
   "prompt": "Your Crossmint-related query here",
   "walletPrivateKey": "0xYourPrivateKey",
   "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "crossmintApiKey": "your-crossmint-api-key",
+  
+  // Choose ONE of the following model provider API keys
   "OPENAI_API_KEY": "YourOpenAIApiKey",
-  "crossmintApiKey": "your-crossmint-api-key"
+  // or any other supported model:
+  // "ANTHROPIC_API_KEY", "GROQ_API_KEY", "MISTRAL_API_KEY", "XAI_API_KEY", 
+  // "DEEPSEEK_API_KEY", "PERPLEXITY_API_KEY"
+  
+  // Optional: specify which model to use
+  "modelName": "gpt-4o"
 }
 ```
 

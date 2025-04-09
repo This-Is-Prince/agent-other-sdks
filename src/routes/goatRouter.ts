@@ -157,37 +157,37 @@ router.post('/generate', async (req: express.Request, res: any) => {
             const openai = createOpenAI({
                 apiKey: OPENAI_API_KEY,
             });
-            model = openai(modelName)
+            model = openai(modelName || 'gpt-4o-mini')
         } else if (XAI_API_KEY) {
             const xai = createXai({
                 apiKey: XAI_API_KEY,
             });
-            model = xai(modelName)
+            model = xai(modelName || 'grok-2-1212')
         } else if (ANTHROPIC_API_KEY) {
             const anthropic = createAnthropic({
                 apiKey: ANTHROPIC_API_KEY,
             });
-            model = anthropic(modelName)
+            model = anthropic(modelName || 'claude-3-5-sonnet-20240620')
         } else if (GROQ_API_KEY) {
             const groq = createGroq({
                 apiKey: GROQ_API_KEY,
             });
-            model = groq(modelName)
+            model = groq(modelName || 'llama3-8b-8192')
         } else if (MISTRAL_API_KEY) {
             const mistral = createMistral({
                 apiKey: MISTRAL_API_KEY,
             });
-            model = mistral(modelName)
+            model = mistral(modelName || 'mistral-large-latest')
         } else if (DEEPSEEK_API_KEY) {
             const deepseek = createDeepSeek({
                 apiKey: DEEPSEEK_API_KEY,
             });
-            model = deepseek(modelName)
+            model = deepseek(modelName || 'sonar-pro')
         } else if (PERPLEXITY_API_KEY) {
             const perplexity = createPerplexity({
                 apiKey: PERPLEXITY_API_KEY,
             });
-            model = perplexity(modelName)
+            model = perplexity(modelName || 'mistral-large-latest')
         }
 
         if (!model) {

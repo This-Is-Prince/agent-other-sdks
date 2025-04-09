@@ -1,6 +1,6 @@
 # OpenSea Plugin
 
-The OpenSea plugin enables your AI agent to interact with OpenSea, the world's largest NFT marketplace. It allows for retrieving NFT collection statistics and recent sales data.
+The OpenSea plugin enables your AI agent to interact with OpenSea, the popular NFT marketplace. It allows for retrieving NFT collection statistics and sales data.
 
 ## API Usage
 
@@ -13,29 +13,40 @@ To use the OpenSea plugin via the API, make a POST request to the `/goat/generat
   "prompt": "Your OpenSea-related query here",
   "walletPrivateKey": "0xYourPrivateKey",
   "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "openseaApiKey": "your-opensea-api-key",
+  
+  // Choose ONE of the following model provider API keys
   "OPENAI_API_KEY": "YourOpenAIApiKey",
-  "openseaApiKey": "your-opensea-api-key"
+  // or any other supported model:
+  // "ANTHROPIC_API_KEY", "GROQ_API_KEY", "MISTRAL_API_KEY", "XAI_API_KEY", 
+  // "DEEPSEEK_API_KEY", "PERPLEXITY_API_KEY"
+  
+  // Optional: specify which model to use
+  "modelName": "gpt-4o",
+  
+  // Optional: specify which chain to use (defaults to Base)
+  "chain": "base" // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
 }
 ```
 
 ## Available Tools and Example Prompts
 
-The OpenSea plugin provides two main tools for accessing NFT data:
+The OpenSea plugin provides tools for accessing NFT data:
 
 ### Get NFT Collection Statistics
 
 **Tool:** `getNftCollectionStatistics`
 
-Description: Get statistics for an NFT collection.
+Description: Get statistics for an NFT collection, such as floor price, volume, and more.
 
 Example prompts:
 - "What is the floor price of Bored Ape Yacht Club?"
 - "Show me statistics for the Azuki collection"
 - "What's the trading volume for CryptoPunks?"
-- "Get the floor price and total supply of Doodles"
-- "Show me market stats for World of Women collection"
+- "Get me the floor price and volume for Doodles"
+- "How many items are in the BAYC collection?"
 
-### Get Recent NFT Sales
+### Get NFT Sales
 
 **Tool:** `getNftSales`
 
@@ -44,9 +55,9 @@ Description: Get recent NFT sales for a collection.
 Example prompts:
 - "Show me recent sales from the Bored Ape Yacht Club collection"
 - "What NFTs were recently sold in the CryptoPunks collection?"
-- "Show the last 5 Azuki sales with prices"
-- "Who bought Doodles NFTs recently?"
-- "What were the most recent transactions in the Moonbirds collection?"
+- "List the last 5 sales of Azuki NFTs"
+- "What was the most recent Doodles sale?"
+- "Show me the recent transaction history for BAYC NFTs"
 
 ## API Response Examples
 
@@ -58,36 +69,21 @@ When getting NFT collection statistics, the response might look like:
     {
       "name": "getNftCollectionStatistics",
       "result": {
-        "total": {
-          "volume": 967123.5,
-          "sales": 54213,
-          "average_price": 17.84,
-          "num_owners": 6389,
-          "market_cap": 285000,
-          "floor_price": 28.5
-        },
-        "one_day": {
-          "volume": 832.5,
-          "sales": 25,
-          "average_price": 33.3,
-          "floor_price": 28.5,
-          "change": 0.05
-        },
-        "seven_day": {
-          "volume": 4532.3,
-          "sales": 145,
-          "average_price": 31.25,
-          "floor_price": 28.5,
-          "change": -0.02
-        }
+        "floorPrice": 15.75,
+        "totalVolume": 983452.34,
+        "numOwners": 6231,
+        "totalSupply": 10000,
+        "oneDayVolume": 152.45,
+        "oneDayChange": -2.3,
+        "oneDayFloorPriceChange": 0.5
       }
     }
   ],
-  "response": "The Bored Ape Yacht Club collection has a current floor price of 28.5 ETH. In the last 24 hours, there have been 25 sales with a volume of 832.5 ETH and an average price of 33.3 ETH (up 5% from yesterday). Total all-time volume is 967,123.5 ETH across 54,213 sales, with 6,389 unique owners."
+  "response": "The floor price for Bored Ape Yacht Club is currently 15.75 ETH. The collection has a total volume of 983,452 ETH across 10,000 NFTs owned by 6,231 unique wallets. In the last 24 hours, the collection saw 152.45 ETH in trading volume (down 2.3%) while the floor price increased by 0.5%."
 }
 ```
 
-When getting recent NFT sales, the response might show:
+When getting NFT sales, the response might look like:
 
 ```json
 {
@@ -96,38 +92,28 @@ When getting recent NFT sales, the response might show:
       "name": "getNftSales",
       "result": [
         {
-          "name": "Bored Ape #8745",
-          "seller": "0x1a2b3c4d5e6f...",
-          "buyer": "0x9a8b7c6d5e4f...",
-          "price": 30.5
+          "tokenId": "7804",
+          "price": 18.5,
+          "timestamp": "2023-06-14T09:23:45Z",
+          "buyer": "0x1234...",
+          "seller": "0xabcd..."
         },
         {
-          "name": "Bored Ape #2156",
-          "seller": "0x2b3c4d5e6f7a...",
-          "buyer": "0x8b7c6d5e4f3a...",
-          "price": 32.75
-        },
-        {
-          "name": "Bored Ape #4536",
-          "seller": "0x3c4d5e6f7a8b...",
-          "buyer": "0x7c6d5e4f3a2b...",
-          "price": 29.25
-        },
-        {
-          "name": "Bored Ape #9432",
-          "seller": "0x4d5e6f7a8b9c...",
-          "buyer": "0x6d5e4f3a2b1c...",
-          "price": 31.0
-        },
-        {
-          "name": "Bored Ape #1287",
-          "seller": "0x5e6f7a8b9c0d...",
-          "buyer": "0x5e4f3a2b1c0d...",
-          "price": 33.2
+          "tokenId": "9021",
+          "price": 16.2,
+          "timestamp": "2023-06-14T08:12:33Z",
+          "buyer": "0x5678...",
+          "seller": "0xefgh..."
         }
       ]
     }
   ],
-  "response": "Here are the 5 most recent sales from the Bored Ape Yacht Club collection: Bored Ape #8745 sold for 30.5 ETH, Bored Ape #2156 sold for 32.75 ETH, Bored Ape #4536 sold for 29.25 ETH, Bored Ape #9432 sold for 31.0 ETH, and Bored Ape #1287 sold for 33.2 ETH."
+  "response": "Here are the recent sales from the Bored Ape Yacht Club collection: BAYC #7804 sold for 18.5 ETH on June 14th at 9:23 AM, and BAYC #9021 sold for 16.2 ETH on June 14th at 8:12 AM."
 }
-``` 
+```
+
+## About OpenSea
+
+OpenSea is the world's largest NFT marketplace, providing a platform for discovering, collecting, and trading NFTs across multiple blockchain networks. The marketplace features collections across art, gaming, sports, virtual worlds, and other categories.
+
+The OpenSea API provides access to comprehensive data about NFT collections, individual assets, sales history, and more. 

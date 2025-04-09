@@ -1,4 +1,4 @@
-# AI-Powered Blockchain Interaction API
+# GOAT SDK - AI-Powered Blockchain Interaction API
 
 This project provides an API endpoint that combines AI capabilities with blockchain interactions, allowing you to perform various operations like checking balances, making transfers, and interacting with DeFi protocols using natural language prompts.
 
@@ -6,10 +6,9 @@ This project provides an API endpoint that combines AI capabilities with blockch
 
 - Node.js (v20.12.2 or higher)
 - pnpm (recommended package manager)
-- Access to Base network RPC endpoint
-- OpenAI API key
-- (Optional) Uniswap API credentials
-- (Optional) DeBridge API endpoint
+- Access to EVM-compatible network RPC endpoint
+- At least one AI model provider API key (OpenAI, Anthropic, etc.)
+- (Optional) API keys for various plugins
 
 ## Installation
 
@@ -44,21 +43,55 @@ The server will start on port 3000 by default. You can modify this by setting th
 
 ## API Usage
 
+The API provides a single endpoint that processes natural language prompts and executes blockchain operations.
+
 ### POST /goat/generate
 
-This endpoint processes natural language prompts and executes blockchain operations.
+#### Multi-Model Support
 
-#### Request Format
+The GOAT SDK API supports multiple language model providers, allowing you to choose your preferred AI model:
+
+| Provider    | Parameter           | Description                         |
+|-------------|--------------------|-------------------------------------|
+| OpenAI      | `OPENAI_API_KEY`    | API key for OpenAI models (GPT-4, etc.) |
+| Anthropic   | `ANTHROPIC_API_KEY` | API key for Anthropic models (Claude) |
+| Groq        | `GROQ_API_KEY`      | API key for Groq models             |
+| Mistral     | `MISTRAL_API_KEY`   | API key for Mistral models          |
+| Xai         | `XAI_API_KEY`       | API key for Xai models              |
+| DeepSeek    | `DEEPSEEK_API_KEY`  | API key for DeepSeek models         |
+| Perplexity  | `PERPLEXITY_API_KEY`| API key for Perplexity models       |
+
+You must provide at least one model provider API key. You can also specify the exact model to use with the `modelName` parameter.
+
+#### General Request Format
 
 ```json
 {
-    "prompt": "Show my USDC balance",
-    "walletPrivateKey": "0xYourPrivateKeyHere",
-    "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
-    "uniswapBaseUrl": "https://trade-api.gateway.uniswap.org/v1",
-    "uniswapApiKey": "YourUniswapApiKey",
-    "OPENAI_API_KEY": "YourOpenAIApiKey",
-    "debrigeBaseUrl": "https://your-debridge-api-endpoint.com"
+  "prompt": "Your natural language instruction here",
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "modelName": "gpt-4o",  // Optional: specify which model to use
+  
+  // Choose ONE of the following model provider API keys
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  // or
+  "ANTHROPIC_API_KEY": "YourAnthropicApiKey",
+  // or
+  "GROQ_API_KEY": "YourGroqApiKey",
+  // or
+  "MISTRAL_API_KEY": "YourMistralApiKey",
+  // or
+  "XAI_API_KEY": "YourXaiApiKey",
+  // or
+  "DEEPSEEK_API_KEY": "YourDeepSeekApiKey",
+  // or
+  "PERPLEXITY_API_KEY": "YourPerplexityApiKey",
+  
+  // Chain selection (optional, defaults to Base)
+  "chain": "base", // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
+  
+  // Additional parameters specific to plugins you're using
+  // See plugin documentation for required parameters
 }
 ```
 
@@ -71,10 +104,7 @@ curl -X POST http://localhost:3000/goat/generate \
     "prompt": "Show my USDC balance",
     "walletPrivateKey": "0xYourPrivateKeyHere",
     "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
-    "uniswapBaseUrl": "https://trade-api.gateway.uniswap.org/v1",
-    "uniswapApiKey": "YourUniswapApiKey",
-    "OPENAI_API_KEY": "YourOpenAIApiKey",
-    "debrigeBaseUrl": "https://your-debridge-api-endpoint.com"
+    "OPENAI_API_KEY": "YourOpenAIApiKey"
   }'
 ```
 
@@ -82,19 +112,90 @@ curl -X POST http://localhost:3000/goat/generate \
 
 ```json
 {
-    "toolResults": [...],
-    "response": "Your USDC balance is X USDC"
+  "toolResults": [...],  // Information about the blockchain operations performed
+  "response": "Human-readable response from the AI about what it did"
 }
 ```
 
-## Supported Operations
+## Available Plugins
 
-The API currently supports:
-- Checking token balances (USDC, PEPE, WETH)
-- Sending ETH
-- ERC20 token operations
-- Uniswap interactions (when configured)
-- Cross-chain operations via DeBridge
+The GOAT SDK includes the following plugins, each providing specific blockchain capabilities:
+
+- **ERC20 Tokens** - Interact with ERC20 tokens (USDC, PEPE, WETH)
+- **Uniswap** - Swap tokens and provide liquidity on Uniswap
+- **DeBridge** - Cross-chain operations
+- **OpenSea** - NFT marketplace interactions
+- **Renzo** - Liquid staking protocol interactions
+- **Polymarket** - Prediction market interactions
+- **CoinMarketCap** - Crypto market data
+- **CoinGecko** - Crypto market data and information
+- **ENS** - Ethereum Name Service operations
+- **Crossmint** - NFT checkout system for multi-chain purchases
+
+Detailed documentation for each plugin is available in the [docs](./docs) directory.
+
+## Plugin Configuration
+
+Each plugin may require additional parameters in your API request:
+
+### ERC20 Tokens
+No additional parameters required. Supports USDC, PEPE, and WETH by default.
+
+### Uniswap
+```json
+{
+  "uniswapBaseUrl": "https://api.uniswap.org/v1",
+  "uniswapApiKey": "your-uniswap-api-key"
+}
+```
+
+### DeBridge
+```json
+{
+  "debrigeBaseUrl": "https://your-debridge-api-endpoint.com" // Optional
+}
+```
+
+### OpenSea
+```json
+{
+  "openseaApiKey": "your-opensea-api-key"
+}
+```
+
+### Polymarket
+```json
+{
+  "polymarketApiKey": "your-polymarket-api-key",
+  "polymarketSecret": "your-polymarket-secret",
+  "polymarketPassphrase": "your-polymarket-passphrase"
+}
+```
+
+### CoinMarketCap
+```json
+{
+  "coinmarketcapApiKey": "your-coinmarketcap-api-key"
+}
+```
+
+### CoinGecko
+```json
+{
+  "coingeckoApiKey": "your-coingecko-api-key",
+  "isCoingeckoPro": true // Optional: set to true if you have a Pro account
+}
+```
+
+### Crossmint
+```json
+{
+  "crossmintApiKey": "your-crossmint-api-key"
+}
+```
+
+### ENS & Renzo
+No additional parameters required.
 
 ## Error Handling
 

@@ -13,10 +13,21 @@ To use the Polymarket plugin via the API, make a POST request to the `/goat/gene
   "prompt": "Your Polymarket-related query here",
   "walletPrivateKey": "0xYourPrivateKey",
   "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
-  "OPENAI_API_KEY": "YourOpenAIApiKey",
   "polymarketApiKey": "your-polymarket-api-key",
   "polymarketSecret": "your-polymarket-secret",
-  "polymarketPassphrase": "your-polymarket-passphrase"
+  "polymarketPassphrase": "your-polymarket-passphrase",
+  
+  // Choose ONE of the following model provider API keys
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  // or any other supported model:
+  // "ANTHROPIC_API_KEY", "GROQ_API_KEY", "MISTRAL_API_KEY", "XAI_API_KEY", 
+  // "DEEPSEEK_API_KEY", "PERPLEXITY_API_KEY"
+  
+  // Optional: specify which model to use
+  "modelName": "gpt-4o",
+  
+  // Optional: specify which chain to use (defaults to Base)
+  "chain": "polygon" // Required for Polymarket
 }
 ```
 
