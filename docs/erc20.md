@@ -24,13 +24,30 @@ To use the ERC20 plugin via the API, make a POST request to the `/goat/generate`
   "modelName": "gpt-4o",
   
   // Optional: specify which chain to use (defaults to Base)
-  "chain": "base" // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
+  "chain": "base" // Options: "base", "polygon", "bnb"
 }
 ```
 
+## Supported Tokens and Chains
+
+The ERC20 plugin supports the following tokens across different chains:
+
+| Token | Symbol | Base (8453) | Polygon (137) | BNB Chain (56) |
+|-------|--------|------------|--------------|----------------|
+| Ethereum | ETH | Native token | ✓ | ✓ |
+| Wrapped Ether | WETH | ✓ | ✓ | - |
+| Bitcoin | BTC | - | - | ✓ |
+| Wrapped Bitcoin | WBTC | ✓ | ✓ | - |
+| Chainlink | LINK | ✓ | ✓ | ✓ |
+| Uniswap | UNI | ✓ | ✓ | ✓ |
+| Solana | SOL | - | - | ✓ |
+| Tether USD | USDT | ✓ | ✓ | ✓ |
+| USD Coin | USDC | ✓ | ✓ | ✓ |
+| Dai Stablecoin | DAI | ✓ | ✓ | ✓ |
+
 ## Available Tools and Example Prompts
 
-The ERC20 plugin supports operations for USDC, PEPE, and WETH tokens. Here are the primary functions and example prompts:
+The ERC20 plugin supports operations for the tokens listed above. Here are the primary functions and example prompts:
 
 ### Checking Token Balances
 
@@ -40,10 +57,10 @@ Description: Check the balance of a specific ERC20 token in your wallet.
 
 Example prompts:
 - "What's my USDC balance?"
-- "How much PEPE do I have?"
+- "How much LINK do I have?"
 - "Check my WETH balance"
 - "Show all my ERC20 token balances"
-- "What tokens do I own on this wallet?"
+- "What's my DAI balance on Polygon?"
 
 ### Sending Tokens
 
@@ -53,9 +70,10 @@ Description: Send ERC20 tokens to another address.
 
 Example prompts:
 - "Send 10 USDC to 0x1234..."
-- "Transfer 5 PEPE to 0xabcd..."
+- "Transfer 5 LINK to 0xabcd..."
 - "Send 0.5 WETH to vitalik.eth"
-- "Send 100 USDC to my friend at 0x5678... with a memo saying 'lunch payment'"
+- "Send 100 USDT to my friend at 0x5678..."
+- "Transfer 20 DAI to 0xabcd... on Polygon"
 
 ### Getting Token Information
 
@@ -65,10 +83,10 @@ Description: Retrieve metadata information about an ERC20 token.
 
 Example prompts:
 - "What's the total supply of USDC?"
-- "What's the contract address for PEPE?"
+- "What's the contract address for LINK on Base?"
 - "How many decimals does WETH use?"
-- "Tell me about the PEPE token"
-- "Who is the owner of the USDC contract?"
+- "Tell me about the UNI token"
+- "What's the contract address for USDT on BNB Chain?"
 
 ### Approving Tokens
 
@@ -78,8 +96,10 @@ Description: Approve a contract or address to spend a specific amount of your to
 
 Example prompts:
 - "Approve Uniswap to spend 100 USDC"
-- "Give permission to 0x1234... to spend 50 PEPE tokens"
+- "Give permission to 0x1234... to spend 50 LINK tokens"
 - "Approve maximum WETH spending for contract 0xabcd..."
+- "Allow Uniswap to use my DAI tokens"
+- "Approve 1000 USDT for DeFi protocol 0x5678..."
 
 ### Checking Allowances
 
@@ -90,7 +110,9 @@ Description: Check how many tokens you've approved a specific address to spend.
 Example prompts:
 - "How much USDC did I approve for Uniswap?"
 - "Check my token allowances for 0x1234..."
-- "Do I have any existing approvals for PEPE token?"
+- "Do I have any existing approvals for LINK token?"
+- "How much DAI can contract 0xabcd... spend on my behalf?"
+- "Show me all my token approvals on Polygon"
 
 ## API Response Examples
 

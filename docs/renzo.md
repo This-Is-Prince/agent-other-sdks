@@ -24,9 +24,21 @@ To use the Renzo plugin via the API, make a POST request to the `/goat/generate`
   "modelName": "gpt-4o",
   
   // Optional: specify which chain to use
-  "chain": "base" // Options: "base", "mode", "arbitrum", "linea", etc.
+  "chain": "base" // Options: "base", "mode", "arbitrum", "bsc", "linea"
 }
 ```
+
+## Supported Chains
+
+The Renzo plugin supports the following chains:
+
+| Chain Name | Chain ID | Description |
+|------------|----------|-------------|
+| Base | 8453 | Ethereum L2 scaling solution by Coinbase |
+| Mode | 34443 | Ethereum L2 built on the OP Stack |
+| Arbitrum | 42161 | Ethereum L2 using optimistic rollups |
+| BNB Chain | 56 | Binance Smart Chain network |
+| Linea | 59144 | Ethereum L2 by ConsenSys |
 
 ## Available Tools and Example Prompts
 
@@ -43,7 +55,7 @@ Example prompts:
 - "Deposit 1 ETH into Renzo protocol"
 - "Convert 0.1 ETH to ezETH on Base"
 - "Stake my ETH with Renzo on Arbitrum"
-- "Swap 2 ETH for ezETH tokens"
+- "Swap 2 ETH for ezETH tokens on Mode"
 
 ### Deposit ERC20 LST into Renzo
 
@@ -69,7 +81,7 @@ Example prompts:
 - "Check how much ezETH I have in my wallet"
 - "Show me the ezETH balance for address 0x123..."
 - "How many ezETH tokens do I own on Base?"
-- "Get my Renzo liquid staking token balance"
+- "Get my Renzo liquid staking token balance on Linea"
 
 ### Get Renzo Deposit Address
 
@@ -81,8 +93,8 @@ Example prompts:
 - "What's the Renzo deposit address on Base?"
 - "Show me the contract address for depositing into Renzo"
 - "Get the Renzo deposit contract address for Arbitrum"
-- "What address should I send ETH to for Renzo staking?"
-- "Display the Renzo deposit smart contract"
+- "What address should I send ETH to for Renzo staking on Mode?"
+- "Display the Renzo deposit smart contract on Linea"
 
 ## API Response Examples
 

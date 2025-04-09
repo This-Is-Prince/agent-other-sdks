@@ -1,6 +1,6 @@
 # Uniswap Plugin
 
-The Uniswap plugin enables your AI agent to interact with Uniswap, a leading decentralized exchange protocol. It allows for token swapping across multiple EVM chains, including Ethereum, Polygon, Arbitrum, Base, Optimism, and more.
+The Uniswap plugin enables your AI agent to interact with Uniswap, a leading decentralized exchange protocol. It allows for token swapping on supported EVM chains.
 
 ## API Usage
 
@@ -26,9 +26,31 @@ To use the Uniswap plugin via the API, make a POST request to the `/goat/generat
   "modelName": "gpt-4o",
   
   // Optional: specify which chain to use (defaults to Base)
-  "chain": "base" // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
+  "chain": "base" // Options: "base", "polygon"
 }
 ```
+
+## Supported Chains and Tokens
+
+The Uniswap plugin supports the following chains and tokens:
+
+### Supported Chains
+- Base (8453)
+- Polygon (137)
+
+### Supported Tokens
+The plugin supports swapping between any of the following tokens on their respective chains:
+
+| Token | Symbol | Base (8453) | Polygon (137) |
+|-------|--------|------------|--------------|
+| Ethereum | ETH | Native token | ✓ |
+| Wrapped Ether | WETH | ✓ | ✓ |
+| Wrapped Bitcoin | WBTC | ✓ | ✓ |
+| Chainlink | LINK | ✓ | ✓ |
+| Uniswap | UNI | ✓ | ✓ |
+| Tether USD | USDT | ✓ | ✓ |
+| USD Coin | USDC | ✓ | ✓ |
+| Dai Stablecoin | DAI | ✓ | ✓ |
 
 ## Available Tools and Example Prompts
 
@@ -58,7 +80,7 @@ Example prompts:
 - "Get a quote for swapping 0.5 ETH to USDC"
 - "What's the current exchange rate between DAI and WETH on Uniswap?"
 - "Check the price impact for trading 100 UNI to ETH"
-- "How much LINK can I get for 50 USDC on Optimism?"
+- "How much LINK can I get for 50 USDC on Base?"
 
 ### Swap Tokens
 
@@ -102,14 +124,14 @@ When getting a quote, the response might look like:
       "result": {
         "routing": "CLASSIC",
         "quote": {
-          "chainId": 1,
+          "chainId": 8453,
           "swapper": "0xYourAddress",
           "input": {
-            "token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            "token": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
             "amount": "1000000000"
           },
           "output": {
-            "token": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            "token": "0x4200000000000000000000000000000000000006",
             "amount": "450000000000000000"
           },
           "priceImpact": 0.5,
@@ -141,7 +163,5 @@ When swapping tokens, the response might look like:
 ## About Uniswap
 
 Uniswap is a decentralized exchange protocol that enables automated, permissionless token swaps on Ethereum and other EVM-compatible blockchains. It uses automated market maker (AMM) technology to determine token prices based on the ratio of tokens in liquidity pools.
-
-The protocol is available on multiple chains including Ethereum, Polygon, Arbitrum, Base, Optimism, Avalanche, Celo, and Zora. Swaps can be performed within the same chain or across different chains when cross-chain functionality is supported.
 
 Note: Before swapping tokens on Uniswap, you must first approve the Uniswap router contract to spend your tokens. The plugin's check_approval tool handles this automatically. 

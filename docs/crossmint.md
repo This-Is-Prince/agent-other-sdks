@@ -22,9 +22,26 @@ To use the Crossmint plugin via the API, make a POST request to the `/goat/gener
   // "DEEPSEEK_API_KEY", "PERPLEXITY_API_KEY"
   
   // Optional: specify which model to use
-  "modelName": "gpt-4o"
+  "modelName": "gpt-4o",
+  
+  // Chain parameter is optional for Crossmint, as it determines only which wallet will execute transactions
+  // It can be any supported chain: "mainnet", "base", "polygon", "sepolia", etc.
+  "chain": "base" // Optional for Crossmint
 }
 ```
+
+## Supported Chains
+
+Crossmint supports purchasing NFTs across multiple blockchains. You can connect with any of the supported chains to execute transactions:
+
+### Source Chains (for payment)
+- Ethereum (Mainnet and Sepolia)
+- Base (Mainnet and Sepolia)
+- Polygon (Mainnet and Amoy)
+- Solana
+
+### Destination Chains (for NFTs)
+NFTs can be purchased on any of the source chains listed above, regardless of which chain your wallet is connected to.
 
 ## Available Tool and Example Prompts
 

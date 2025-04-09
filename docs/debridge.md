@@ -25,9 +25,33 @@ To use the DeBridge plugin via the API, make a POST request to the `/goat/genera
   "modelName": "gpt-4o",
   
   // Optional: specify which chain to use (defaults to Base)
-  "chain": "base" // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
+  "chain": "base" // Options: "base", "polygon", "bnb"
 }
 ```
+
+## Supported Chains and Tokens
+
+The DeBridge plugin supports cross-chain operations between all the supported chains:
+
+### Supported Chains
+- Base (8453)
+- Polygon (137)
+- BNB Chain (56)
+
+### Supported Tokens for Bridging
+
+The following tokens can be bridged between the supported chains:
+
+| Token | Symbol | Base (8453) | Polygon (137) | BNB Chain (56) |
+|-------|--------|------------|--------------|----------------|
+| USD Coin | USDC | ✓ | ✓ | ✓ |
+| Tether USD | USDT | ✓ | ✓ | ✓ |
+| Dai Stablecoin | DAI | ✓ | ✓ | ✓ |
+| Ethereum | ETH | Native token | ✓ | ✓ |
+| Wrapped Ether | WETH | ✓ | ✓ | - |
+| Wrapped Bitcoin | WBTC | ✓ | ✓ | - |
+| Chainlink | LINK | ✓ | ✓ | ✓ |
+| Uniswap | UNI | ✓ | ✓ | ✓ |
 
 ## Available Tools and Example Prompts
 
@@ -40,11 +64,11 @@ The DeBridge plugin provides tools for cross-chain operations:
 Description: Get a quote for bridging tokens between chains.
 
 Example prompts:
-- "How much will it cost to bridge 100 USDC from Ethereum to Base?"
-- "Get a quote for transferring 50 USDT from Polygon to Arbitrum"
-- "What's the fee for bridging 25 ETH from Base to Optimism?"
-- "Show me the gas cost for moving USDC from Ethereum to Avalanche"
-- "Calculate fees for transferring 1000 USDC from Base to Polygon"
+- "How much will it cost to bridge 100 USDC from Base to Polygon?"
+- "Get a quote for transferring 50 USDT from Polygon to BNB Chain"
+- "What's the fee for bridging 25 DAI from Base to Polygon?"
+- "Show me the gas cost for moving USDC from Base to BNB Chain"
+- "Calculate fees for transferring 1000 LINK from Polygon to Base"
 
 ### Create Bridge Order
 
@@ -53,11 +77,11 @@ Example prompts:
 Description: Create a bridge order for transferring tokens between chains.
 
 Example prompts:
-- "Bridge 100 USDC from Ethereum to Base"
-- "Transfer 50 USDT from Polygon to Arbitrum"
-- "Send 25 ETH from Base to Optimism"
-- "Move 1000 USDC from Base to Polygon"
-- "Bridge 10 ETH from Ethereum to Avalanche"
+- "Bridge 100 USDC from Base to Polygon"
+- "Transfer 50 USDT from Polygon to BNB Chain"
+- "Send 25 DAI from Base to Polygon"
+- "Move 1000 LINK from Polygon to Base"
+- "Bridge 10 WETH from Base to Polygon"
 
 ### Get Token Information
 
@@ -66,11 +90,11 @@ Example prompts:
 Description: Retrieve information about tokens on various chains.
 
 Example prompts:
-- "Show me information about USDC on Ethereum"
-- "What's the contract address of WETH on Base?"
-- "Get token details for USDT on Polygon"
-- "Show me USDC information across all supported chains"
-- "What are the decimals for DAI on Arbitrum?"
+- "Show me information about USDC on Base"
+- "What's the contract address of WETH on Polygon?"
+- "Get token details for USDT on BNB Chain"
+- "Show me LINK information across all supported chains"
+- "What are the decimals for DAI on Base?"
 
 ### Get Supported Chains
 
@@ -92,8 +116,8 @@ Example prompts:
 Description: Execute prepared bridge transactions.
 
 Example prompts:
-- "Execute the bridge transaction to send 100 USDC to Base"
-- "Complete my token bridge from Ethereum to Arbitrum"
+- "Execute the bridge transaction to send 100 USDC to Polygon"
+- "Complete my token bridge from Base to BNB Chain"
 - "Finalize the cross-chain transfer"
 - "Submit my prepared bridge transaction"
 - "Execute the pending bridge order"
@@ -106,9 +130,9 @@ Description: Check the status of executed transactions.
 
 Example prompts:
 - "Check the status of my bridge transaction"
-- "Has my token transfer from Ethereum to Base completed?"
+- "Has my token transfer from Base to Polygon completed?"
 - "Is my cross-chain transaction still pending?"
-- "What's the status of my Polygon to Arbitrum bridge?"
+- "What's the status of my Polygon to BNB Chain bridge?"
 - "Has my bridge transaction been confirmed yet?"
 
 ## API Response Examples
@@ -130,7 +154,7 @@ When getting a bridge quote, the response might look like:
       }
     }
   ],
-  "response": "To bridge 100 USDC from Ethereum to Base, you'll pay approximately $4.50 in total fees. This includes $2.50 for the source chain transaction, $0.80 for the destination chain transaction, and $1.20 in protocol fees. You'll receive about 99.25 USDC on Base, and the process should take around 15 minutes to complete."
+  "response": "To bridge 100 USDC from Base to Polygon, you'll pay approximately $4.50 in total fees. This includes $2.50 for the source chain transaction, $0.80 for the destination chain transaction, and $1.20 in protocol fees. You'll receive about 99.25 USDC on Polygon, and the process should take around 15 minutes to complete."
 }
 ```
 
@@ -143,8 +167,8 @@ When creating a bridge order, the response might include:
       "name": "create_bridge_order",
       "result": {
         "orderId": "deb-123456",
-        "sourceChain": "ethereum",
-        "destinationChain": "base",
+        "sourceChain": "base",
+        "destinationChain": "polygon",
         "tokenSymbol": "USDC",
         "amount": "100",
         "txHash": "0xabcd1234...",
@@ -152,7 +176,7 @@ When creating a bridge order, the response might include:
       }
     }
   ],
-  "response": "I've created a bridge order to transfer 100 USDC from Ethereum to Base. The transaction has been submitted with hash 0xabcd1234... and order ID deb-123456. The transfer should complete in approximately 15 minutes."
+  "response": "I've created a bridge order to transfer 100 USDC from Base to Polygon. The transaction has been submitted with hash 0xabcd1234... and order ID deb-123456. The transfer should complete in approximately 15 minutes."
 }
 ```
 
@@ -166,17 +190,3 @@ Key features include:
 - Arbitrary data transfer between blockchains
 - Support for multiple EVM and non-EVM chains
 - Decentralized validation for enhanced security
-
-## Supported Chains
-
-DeBridge supports numerous blockchain networks including but not limited to:
-- Ethereum (Chain ID: 1)
-- Arbitrum (Chain ID: 42161)
-- Optimism (Chain ID: 10)
-- Base (Chain ID: 8453)
-- Polygon (Chain ID: 137)
-- Avalanche (Chain ID: 43114)
-- BNB Chain (Chain ID: 56)
-- Solana (Chain ID: 7565164)
-
-The exact list of supported chains may change as DeBridge expands its integrations. Use the `get_supported_chains` tool to get the most current list.

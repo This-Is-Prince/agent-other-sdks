@@ -12,7 +12,7 @@ To use the Polymarket plugin via the API, make a POST request to the `/goat/gene
 {
   "prompt": "Your Polymarket-related query here",
   "walletPrivateKey": "0xYourPrivateKey",
-  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "rpcProviderUrl": "https://polygon-mainnet.g.alchemy.com/v2/YourAlchemyKey",
   "polymarketApiKey": "your-polymarket-api-key",
   "polymarketSecret": "your-polymarket-secret",
   "polymarketPassphrase": "your-polymarket-passphrase",
@@ -26,10 +26,14 @@ To use the Polymarket plugin via the API, make a POST request to the `/goat/gene
   // Optional: specify which model to use
   "modelName": "gpt-4o",
   
-  // Optional: specify which chain to use (defaults to Base)
-  "chain": "polygon" // Required for Polymarket
+  // Required chain setting - Polymarket only works on Polygon
+  "chain": "polygon" // Polymarket only supports Polygon
 }
 ```
+
+## Supported Chain
+
+The Polymarket plugin only supports the Polygon (137) chain, as the Polymarket platform operates exclusively on Polygon.
 
 ## Available Tools and Example Prompts
 
@@ -175,6 +179,6 @@ When creating an order, the response might include:
 
 Polymarket is a decentralized prediction market platform that allows users to bet on the outcome of future events. The platform uses blockchain technology to create transparent and efficient markets, with outcomes determined by real-world events.
 
-The platform operates on Polygon (formerly Matic), an Ethereum scaling solution that allows for faster and cheaper transactions.
+The platform operates exclusively on Polygon (formerly Matic), an Ethereum scaling solution that allows for faster and cheaper transactions.
 
 Note: Trading on Polymarket may be restricted in certain jurisdictions. Please ensure compliance with your local regulations before using this plugin. 

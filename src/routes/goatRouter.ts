@@ -12,7 +12,7 @@ import { createWalletClient } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { base, mainnet, sepolia, baseSepolia, polygon } from "viem/chains";
 import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
-import { PEPE, USDC, WETH, erc20 } from "@goat-sdk/plugin-erc20";
+import { erc20 } from "@goat-sdk/plugin-erc20";
 import { uniswap } from "@goat-sdk/plugin-uniswap";
 import { sendETH } from "@goat-sdk/wallet-evm";
 import { viem } from "@goat-sdk/wallet-viem";
@@ -24,6 +24,7 @@ import { coinmarketcap } from '@goat-sdk/plugin-coinmarketcap';
 import { coingecko } from "@goat-sdk/plugin-coingecko";
 import { ens } from "@goat-sdk/plugin-ens";
 import { crossmintHeadlessCheckout } from "@goat-sdk/plugin-crossmint-headless-checkout";
+import { tokens } from '../utils/supported-tokens';
 
 const router: Router = express.Router();
 
@@ -87,7 +88,7 @@ router.post('/generate', async (req: express.Request, res: any) => {
 
         const plugins: any[] = [
             sendETH(),
-            erc20({ tokens: [USDC, PEPE, WETH] }),
+            erc20({ tokens: tokens }),
             renzo(),
         ].filter(Boolean);
 

@@ -12,7 +12,7 @@ To use the ENS plugin via the API, make a POST request to the `/goat/generate` e
 {
   "prompt": "Your ENS-related query here",
   "walletPrivateKey": "0xYourPrivateKey",
-  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "rpcProviderUrl": "https://eth-mainnet.g.alchemy.com/v2/YourAlchemyKey",
   
   // Choose ONE of the following model provider API keys
   "OPENAI_API_KEY": "YourOpenAIApiKey",
@@ -21,9 +21,16 @@ To use the ENS plugin via the API, make a POST request to the `/goat/generate` e
   // "DEEPSEEK_API_KEY", "PERPLEXITY_API_KEY"
   
   // Optional: specify which model to use
-  "modelName": "gpt-4o"
+  "modelName": "gpt-4o",
+  
+  // Required: ENS resolution requires Ethereum mainnet
+  "chain": "mainnet" // ENS resolution only works with Ethereum mainnet
 }
 ```
+
+## Supported Chain
+
+The ENS plugin requires connection to Ethereum mainnet (Chain ID: 1) to resolve ENS domains.
 
 ## Available Tool and Example Prompts
 
@@ -72,5 +79,7 @@ ENS domains provide several benefits:
 - Decentralized websites
 - Consistent identity across web3 applications
 - Integration with traditional DNS
+
+Note: While ENS is hosted on Ethereum mainnet, the resolved addresses can be used to send transactions on any supported chain.
 
 For more information, visit the [ENS website](https://ens.domains/). 

@@ -12,7 +12,7 @@ To use the OpenSea plugin via the API, make a POST request to the `/goat/generat
 {
   "prompt": "Your OpenSea-related query here",
   "walletPrivateKey": "0xYourPrivateKey",
-  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "rpcProviderUrl": "https://eth-mainnet.g.alchemy.com/v2/YourAlchemyKey",
   "openseaApiKey": "your-opensea-api-key",
   
   // Choose ONE of the following model provider API keys
@@ -24,10 +24,20 @@ To use the OpenSea plugin via the API, make a POST request to the `/goat/generat
   // Optional: specify which model to use
   "modelName": "gpt-4o",
   
-  // Optional: specify which chain to use (defaults to Base)
-  "chain": "base" // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
+  // Optional: specify which chain to use
+  "chain": "mainnet" // Options: "mainnet" (Ethereum), "polygon", "base"
 }
 ```
+
+## Supported Chains
+
+The OpenSea plugin supports NFT data retrieval from the following chains:
+
+- Ethereum Mainnet (Chain ID: 1)
+- Polygon (Chain ID: 137)
+- Base (Chain ID: 8453)
+
+Note that the majority of NFT collections are on Ethereum mainnet, so connecting to Ethereum is recommended for the best experience.
 
 ## Available Tools and Example Prompts
 

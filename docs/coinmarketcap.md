@@ -22,12 +22,15 @@ To use the CoinMarketCap plugin via the API, make a POST request to the `/goat/g
   // "DEEPSEEK_API_KEY", "PERPLEXITY_API_KEY"
   
   // Optional: specify which model to use
-  "modelName": "gpt-4o",
+  "modelName": "gpt-4o"
   
-  // Optional: specify which chain to use (defaults to Base)
-  "chain": "base" // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
+  // Note: Chain parameter is not needed for CoinMarketCap as it's a data provider
 }
 ```
+
+## Chain Compatibility
+
+The CoinMarketCap plugin is chain-agnostic, meaning it functions independently of the blockchain you're connecting to. It retrieves cryptocurrency data directly from CoinMarketCap's API and does not depend on any specific blockchain network.
 
 ## Available Tools and Example Prompts
 
@@ -245,6 +248,10 @@ When getting cryptocurrency quotes, the response might show:
   "response": "Bitcoin (BTC) is currently trading at $57,245.83. It's up 0.2% in the last hour, 2.3% in the last 24 hours, and 5.1% over the past week. Its market cap is $1.12T with a 24h trading volume of $32.5B."
 }
 ```
+
+## About CoinMarketCap
+
+CoinMarketCap is a leading cryptocurrency data provider that offers comprehensive information about thousands of digital assets. Their API provides access to real-time and historical price data, volume information, market capitalization, and other key metrics for cryptocurrencies and exchanges.
 
 ## API Rate Limits
 

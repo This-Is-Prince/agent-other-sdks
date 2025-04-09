@@ -63,6 +63,33 @@ The GOAT SDK API supports multiple language model providers, allowing you to cho
 
 You must provide at least one model provider API key. You can also specify the exact model to use with the `modelName` parameter.
 
+#### Supported Chains
+
+The GOAT SDK currently supports the following blockchain networks:
+
+| Chain ID | Network | Description |
+|----------|---------|-------------|
+| 8453     | Base    | Ethereum L2 scaling solution by Coinbase |
+| 137      | Polygon | Ethereum sidechain and scaling solution |
+| 56       | BNB Chain | Binance Smart Chain network |
+
+#### Supported Tokens
+
+The following tokens are supported across different chains:
+
+| Token | Symbol | Base (8453) | Polygon (137) | BNB Chain (56) |
+|-------|--------|------------|--------------|----------------|
+| Ethereum | ETH | Native token | ✓ | ✓ |
+| Wrapped Ether | WETH | ✓ | ✓ | - |
+| Bitcoin | BTC | - | - | ✓ |
+| Wrapped Bitcoin | WBTC | ✓ | ✓ | - |
+| Chainlink | LINK | ✓ | ✓ | ✓ |
+| Uniswap | UNI | ✓ | ✓ | ✓ |
+| Solana | SOL | - | - | ✓ |
+| Tether USD | USDT | ✓ | ✓ | ✓ |
+| USD Coin | USDC | ✓ | ✓ | ✓ |
+| Dai Stablecoin | DAI | ✓ | ✓ | ✓ |
+
 #### General Request Format
 
 ```json
@@ -88,7 +115,7 @@ You must provide at least one model provider API key. You can also specify the e
   "PERPLEXITY_API_KEY": "YourPerplexityApiKey",
   
   // Chain selection (optional, defaults to Base)
-  "chain": "base", // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
+  "chain": "base", // Options: "base", "polygon", "bnb"
   
   // Additional parameters specific to plugins you're using
   // See plugin documentation for required parameters
@@ -104,7 +131,8 @@ curl -X POST http://localhost:3000/goat/generate \
     "prompt": "Show my USDC balance",
     "walletPrivateKey": "0xYourPrivateKeyHere",
     "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
-    "OPENAI_API_KEY": "YourOpenAIApiKey"
+    "OPENAI_API_KEY": "YourOpenAIApiKey",
+    "chain": "base"
   }'
 ```
 
@@ -121,7 +149,7 @@ curl -X POST http://localhost:3000/goat/generate \
 
 The GOAT SDK includes the following plugins, each providing specific blockchain capabilities:
 
-- **ERC20 Tokens** - Interact with ERC20 tokens (USDC, PEPE, WETH)
+- **ERC20 Tokens** - Interact with ERC20 tokens (USDC, USDT, DAI, etc.)
 - **Uniswap** - Swap tokens and provide liquidity on Uniswap
 - **DeBridge** - Cross-chain operations
 - **OpenSea** - NFT marketplace interactions
@@ -139,7 +167,7 @@ Detailed documentation for each plugin is available in the [docs](./docs) direct
 Each plugin may require additional parameters in your API request:
 
 ### ERC20 Tokens
-No additional parameters required. Supports USDC, PEPE, and WETH by default.
+No additional parameters required. Supports various tokens on Base, Polygon, and BNB Chain.
 
 ### Uniswap
 ```json
@@ -168,7 +196,8 @@ No additional parameters required. Supports USDC, PEPE, and WETH by default.
 {
   "polymarketApiKey": "your-polymarket-api-key",
   "polymarketSecret": "your-polymarket-secret",
-  "polymarketPassphrase": "your-polymarket-passphrase"
+  "polymarketPassphrase": "your-polymarket-passphrase",
+  "chain": "polygon" // Polymarket only supports Polygon
 }
 ```
 

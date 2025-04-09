@@ -24,8 +24,14 @@ To use the CoinGecko plugin via the API, make a POST request to the `/goat/gener
   
   // Optional: specify which model to use
   "modelName": "gpt-4o"
+  
+  // Note: Chain parameter is not needed for CoinGecko as it's a data provider
 }
 ```
+
+## Chain Compatibility
+
+The CoinGecko plugin is chain-agnostic, meaning it functions independently of the blockchain you're connecting to. It retrieves cryptocurrency data directly from CoinGecko's API and does not depend on any specific blockchain network.
 
 ## Available Tools and Example Prompts
 
