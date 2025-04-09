@@ -1,6 +1,12 @@
 import express, { Router } from 'express';
 import { createOpenAI } from "@ai-sdk/openai";
-import { generateText } from "ai";
+import { createXai } from '@ai-sdk/xai';
+import { createAnthropic } from '@ai-sdk/anthropic';
+import { createGroq } from '@ai-sdk/groq';
+import { createMistral } from '@ai-sdk/mistral';
+import { createDeepSeek } from '@ai-sdk/deepseek';
+import { createPerplexity } from '@ai-sdk/perplexity';
+import { generateText, LanguageModelV1 } from "ai";
 import { http } from "viem";
 import { createWalletClient } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
@@ -31,6 +37,13 @@ router.post('/generate', async (req: express.Request, res: any) => {
             uniswapBaseUrl,
             uniswapApiKey,
             OPENAI_API_KEY,
+            XAI_API_KEY,
+            ANTHROPIC_API_KEY,
+            GROQ_API_KEY,
+            MISTRAL_API_KEY,
+            DEEPSEEK_API_KEY,
+            PERPLEXITY_API_KEY,
+            modelName,
             debrigeBaseUrl,
             openseaApiKey,
             polymarketApiKey,
@@ -138,12 +151,53 @@ router.post('/generate', async (req: express.Request, res: any) => {
         // Store tool results
         const toolResults: any[] = [];
 
-        const openai = createOpenAI({
-            apiKey: OPENAI_API_KEY,
-        });
+        let model: LanguageModelV1 | null = null;
+
+        if (OPENAI_API_KEY) {
+            const openai = createOpenAI({
+                apiKey: OPENAI_API_KEY,
+            });
+            model = openai(modelName)
+        } else if (XAI_API_KEY) {
+            const xai = createXai({
+                apiKey: XAI_API_KEY,
+            });
+            model = xai(modelName)
+        } else if (ANTHROPIC_API_KEY) {
+            const anthropic = createAnthropic({
+                apiKey: ANTHROPIC_API_KEY,
+            });
+            model = anthropic(modelName)
+        } else if (GROQ_API_KEY) {
+            const groq = createGroq({
+                apiKey: GROQ_API_KEY,
+            });
+            model = groq(modelName)
+        } else if (MISTRAL_API_KEY) {
+            const mistral = createMistral({
+                apiKey: MISTRAL_API_KEY,
+            });
+            model = mistral(modelName)
+        } else if (DEEPSEEK_API_KEY) {
+            const deepseek = createDeepSeek({
+                apiKey: DEEPSEEK_API_KEY,
+            });
+            model = deepseek(modelName)
+        } else if (PERPLEXITY_API_KEY) {
+            const perplexity = createPerplexity({
+                apiKey: PERPLEXITY_API_KEY,
+            });
+            model = perplexity(modelName)
+        }
+
+        if (!model) {
+            return res.status(400).json({
+                error: 'No language model available - please provide an OpenAI API key'
+            });
+        }
 
         const result = await generateText({
-            model: openai("gpt-4o-mini"),
+            model: model,
             tools: tools,
             maxSteps: 10,
             prompt: prompt,
