@@ -4,9 +4,13 @@ The ENS (Ethereum Name Service) plugin enables your AI agent to resolve ENS doma
 
 ## API Usage
 
-To use the ENS plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to ENS domain resolution.
+There are two ways to use the ENS plugin:
 
-### Required Parameters
+### Option 1: Direct Usage with generate endpoint
+
+Make a POST request to the `/goat/generate` endpoint with a natural language prompt related to ENS operations.
+
+#### Required Parameters
 
 ```json
 {
@@ -27,6 +31,37 @@ To use the ENS plugin via the API, make a POST request to the `/goat/generate` e
   "chain": "mainnet" // ENS resolution only works with Ethereum mainnet
 }
 ```
+
+### Option 2: Using Agent Registration (Recommended)
+
+#### Step 1: Register an agent
+
+Make a POST request to the `/goat/registerAgent` endpoint to create a reusable agent:
+
+```json
+{
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  "modelName": "gpt-4o",
+  "chain": "base" // ENS is available on Base and Ethereum
+}
+```
+
+This will return an `agentId` that you can use for subsequent requests.
+
+#### Step 2: Use the registered agent for queries
+
+Make a POST request to the `/goat/generate` endpoint using just the agent ID:
+
+```json
+{
+  "prompt": "Your ENS-related query here",
+  "agentId": "your-registered-agent-id"
+}
+```
+
+This approach is more efficient as you don't need to send your wallet keys and API keys with every request.
 
 ## Supported Chain
 

@@ -4,9 +4,13 @@ The OpenSea plugin enables your AI agent to interact with OpenSea, the popular N
 
 ## API Usage
 
-To use the OpenSea plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to NFT collections and sales.
+There are two ways to use the OpenSea plugin:
 
-### Required Parameters
+### Option 1: Direct Usage with generate endpoint
+
+Make a POST request to the `/goat/generate` endpoint with a natural language prompt related to NFT operations.
+
+#### Required Parameters
 
 ```json
 {
@@ -28,6 +32,38 @@ To use the OpenSea plugin via the API, make a POST request to the `/goat/generat
   "chain": "mainnet" // Options: "mainnet" (Ethereum), "polygon", "base"
 }
 ```
+
+### Option 2: Using Agent Registration (Recommended)
+
+#### Step 1: Register an agent
+
+Make a POST request to the `/goat/registerAgent` endpoint to create a reusable agent:
+
+```json
+{
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "openseaApiKey": "your-opensea-api-key",
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  "modelName": "gpt-4o",
+  "chain": "base"  // Optional, defaults to Base
+}
+```
+
+This will return an `agentId` that you can use for subsequent requests.
+
+#### Step 2: Use the registered agent for queries
+
+Make a POST request to the `/goat/generate` endpoint using just the agent ID:
+
+```json
+{
+  "prompt": "Your NFT-related query here",
+  "agentId": "your-registered-agent-id"
+}
+```
+
+This approach is more efficient as you don't need to send your wallet keys and API keys with every request.
 
 ## Supported Chains
 

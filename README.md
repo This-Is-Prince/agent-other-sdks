@@ -43,9 +43,68 @@ The server will start on port 3000 by default. You can modify this by setting th
 
 ## API Usage
 
-The API provides a single endpoint that processes natural language prompts and executes blockchain operations.
+The API provides two endpoints:
+
+### POST /goat/registerAgent
+
+This endpoint allows you to register an agent with all its configuration parameters. The registered agent can then be reused for multiple requests without sending all parameters each time.
+
+#### Request Format
+
+```json
+{
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "modelName": "gpt-4o",  // Optional: specify which model to use
+  
+  // Choose ONE of the following model provider API keys
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  // or
+  "ANTHROPIC_API_KEY": "YourAnthropicApiKey",
+  // or
+  "GROQ_API_KEY": "YourGroqApiKey",
+  // or
+  "MISTRAL_API_KEY": "YourMistralApiKey",
+  // or
+  "XAI_API_KEY": "YourXaiApiKey",
+  // or
+  "DEEPSEEK_API_KEY": "YourDeepSeekApiKey",
+  // or
+  "PERPLEXITY_API_KEY": "YourPerplexityApiKey",
+  
+  // Chain selection (optional, defaults to Base)
+  "chain": "base", // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
+  
+  // Additional parameters specific to plugins you're using
+  // See plugin documentation for required parameters
+}
+```
+
+#### Response Format
+
+```json
+{
+  "agentId": "unique-agent-id",
+  "message": "Agent registered successfully"
+}
+```
+
+#### Example cURL Request
+
+```bash
+curl -X POST http://localhost:3000/goat/registerAgent \
+  -H "Content-Type: application/json" \
+  -d '{
+    "walletPrivateKey": "0xYourPrivateKeyHere",
+    "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+    "OPENAI_API_KEY": "YourOpenAIApiKey",
+    "chain": "base"
+  }'
+```
 
 ### POST /goat/generate
+
+This endpoint processes natural language prompts and executes blockchain operations. You can either use a previously registered agent ID or provide all configuration parameters directly.
 
 #### Multi-Model Support
 
@@ -92,6 +151,17 @@ The following tokens are supported across different chains:
 
 #### General Request Format
 
+##### Using a registered agent ID:
+
+```json
+{
+  "prompt": "Your natural language instruction here",
+  "agentId": "previously-registered-agent-id"
+}
+```
+
+##### Using direct configuration (legacy method):
+
 ```json
 {
   "prompt": "Your natural language instruction here",
@@ -115,14 +185,25 @@ The following tokens are supported across different chains:
   "PERPLEXITY_API_KEY": "YourPerplexityApiKey",
   
   // Chain selection (optional, defaults to Base)
-  "chain": "base", // Options: "base", "polygon", "bnb"
+  "chain": "base", // Options: "base", "baseSepolia", "mainnet", "sepolia", "polygon"
   
   // Additional parameters specific to plugins you're using
   // See plugin documentation for required parameters
 }
 ```
 
-#### Example cURL Request
+#### Example cURL Request with Agent ID
+
+```bash
+curl -X POST http://localhost:3000/goat/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Show my USDC balance",
+    "agentId": "your-agent-id-here"
+  }'
+```
+
+#### Example cURL Request with Direct Configuration
 
 ```bash
 curl -X POST http://localhost:3000/goat/generate \

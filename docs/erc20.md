@@ -4,9 +4,13 @@ The ERC20 plugin allows your AI agent to interact with ERC20 tokens on EVM-compa
 
 ## API Usage
 
-To use the ERC20 plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to ERC20 token operations.
+There are two ways to use the ERC20 plugin:
 
-### Required Parameters
+### Option 1: Direct Usage with generate endpoint
+
+Make a POST request to the `/goat/generate` endpoint with a natural language prompt related to ERC20 token operations.
+
+#### Required Parameters
 
 ```json
 {
@@ -27,6 +31,37 @@ To use the ERC20 plugin via the API, make a POST request to the `/goat/generate`
   "chain": "base" // Options: "base", "polygon", "bnb"
 }
 ```
+
+### Option 2: Using Agent Registration (Recommended)
+
+#### Step 1: Register an agent
+
+Make a POST request to the `/goat/registerAgent` endpoint to create a reusable agent:
+
+```json
+{
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  "modelName": "gpt-4o",
+  "chain": "base"
+}
+```
+
+This will return an `agentId` that you can use for subsequent requests.
+
+#### Step 2: Use the registered agent for queries
+
+Make a POST request to the `/goat/generate` endpoint using just the agent ID:
+
+```json
+{
+  "prompt": "Your ERC20-related query here",
+  "agentId": "your-registered-agent-id"
+}
+```
+
+This approach is more efficient as you don't need to send your wallet keys and API keys with every request.
 
 ## Supported Tokens and Chains
 

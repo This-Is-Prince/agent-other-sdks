@@ -4,9 +4,13 @@ The CoinGecko plugin enables your AI agent to access cryptocurrency market data 
 
 ## API Usage
 
-To use the CoinGecko plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to cryptocurrency market data.
+There are two ways to use the CoinGecko plugin:
 
-### Required Parameters
+### Option 1: Direct Usage with generate endpoint
+
+Make a POST request to the `/goat/generate` endpoint with a natural language prompt related to cryptocurrency data.
+
+#### Required Parameters
 
 ```json
 {
@@ -28,6 +32,39 @@ To use the CoinGecko plugin via the API, make a POST request to the `/goat/gener
   // Note: Chain parameter is not needed for CoinGecko as it's a data provider
 }
 ```
+
+### Option 2: Using Agent Registration (Recommended)
+
+#### Step 1: Register an agent
+
+Make a POST request to the `/goat/registerAgent` endpoint to create a reusable agent:
+
+```json
+{
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "coingeckoApiKey": "your-coingecko-api-key",
+  "isCoingeckoPro": true, // Optional: set to true if you have a Pro account
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  "modelName": "gpt-4o"
+  // Note: Chain parameter is not needed for CoinGecko as it's a data provider
+}
+```
+
+This will return an `agentId` that you can use for subsequent requests.
+
+#### Step 2: Use the registered agent for queries
+
+Make a POST request to the `/goat/generate` endpoint using just the agent ID:
+
+```json
+{
+  "prompt": "Your cryptocurrency data query here",
+  "agentId": "your-registered-agent-id"
+}
+```
+
+This approach is more efficient as you don't need to send your wallet keys and API keys with every request.
 
 ## Chain Compatibility
 

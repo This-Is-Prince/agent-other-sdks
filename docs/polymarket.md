@@ -4,9 +4,13 @@ The Polymarket plugin enables your AI agent to interact with Polymarket, a popul
 
 ## API Usage
 
-To use the Polymarket plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to prediction markets.
+There are two ways to use the Polymarket plugin:
 
-### Required Parameters
+### Option 1: Direct Usage with generate endpoint
+
+Make a POST request to the `/goat/generate` endpoint with a natural language prompt related to prediction market operations.
+
+#### Required Parameters
 
 ```json
 {
@@ -30,6 +34,40 @@ To use the Polymarket plugin via the API, make a POST request to the `/goat/gene
   "chain": "polygon" // Polymarket only supports Polygon
 }
 ```
+
+### Option 2: Using Agent Registration (Recommended)
+
+#### Step 1: Register an agent
+
+Make a POST request to the `/goat/registerAgent` endpoint to create a reusable agent:
+
+```json
+{
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://polygon-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "polymarketApiKey": "your-polymarket-api-key",
+  "polymarketSecret": "your-polymarket-secret",
+  "polymarketPassphrase": "your-polymarket-passphrase",
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  "modelName": "gpt-4o",
+  "chain": "polygon" // Polymarket only supports Polygon
+}
+```
+
+This will return an `agentId` that you can use for subsequent requests.
+
+#### Step 2: Use the registered agent for queries
+
+Make a POST request to the `/goat/generate` endpoint using just the agent ID:
+
+```json
+{
+  "prompt": "Your Polymarket-related query here",
+  "agentId": "your-registered-agent-id"
+}
+```
+
+This approach is more efficient as you don't need to send your wallet keys and API keys with every request.
 
 ## Supported Chain
 

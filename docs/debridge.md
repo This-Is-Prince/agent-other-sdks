@@ -4,9 +4,13 @@ The DeBridge plugin enables your AI agent to interact with DeBridge's cross-chai
 
 ## API Usage
 
-To use the DeBridge plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to cross-chain operations.
+There are two ways to use the deBridge plugin:
 
-### Required Parameters
+### Option 1: Direct Usage with generate endpoint
+
+Make a POST request to the `/goat/generate` endpoint with a natural language prompt related to cross-chain operations.
+
+#### Required Parameters
 
 ```json
 {
@@ -28,6 +32,38 @@ To use the DeBridge plugin via the API, make a POST request to the `/goat/genera
   "chain": "base" // Options: "base", "polygon", "bnb"
 }
 ```
+
+### Option 2: Using Agent Registration (Recommended)
+
+#### Step 1: Register an agent
+
+Make a POST request to the `/goat/registerAgent` endpoint to create a reusable agent:
+
+```json
+{
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "debrigeBaseUrl": "https://your-debridge-api-endpoint.com", // Optional
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  "modelName": "gpt-4o",
+  "chain": "base" // Options: "base", "polygon", "bnb"
+}
+```
+
+This will return an `agentId` that you can use for subsequent requests.
+
+#### Step 2: Use the registered agent for queries
+
+Make a POST request to the `/goat/generate` endpoint using just the agent ID:
+
+```json
+{
+  "prompt": "Your cross-chain operation query here",
+  "agentId": "your-registered-agent-id"
+}
+```
+
+This approach is more efficient as you don't need to send your wallet keys and API keys with every request.
 
 ## Supported Chains and Tokens
 

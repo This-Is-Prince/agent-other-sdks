@@ -4,9 +4,13 @@ The CoinMarketCap plugin enables your AI agent to access cryptocurrency market d
 
 ## API Usage
 
-To use the CoinMarketCap plugin via the API, make a POST request to the `/goat/generate` endpoint with a natural language prompt related to cryptocurrency data.
+There are two ways to use the CoinMarketCap plugin:
 
-### Required Parameters
+### Option 1: Direct Usage with generate endpoint
+
+Make a POST request to the `/goat/generate` endpoint with a natural language prompt related to cryptocurrency data.
+
+#### Required Parameters
 
 ```json
 {
@@ -27,6 +31,37 @@ To use the CoinMarketCap plugin via the API, make a POST request to the `/goat/g
   // Note: Chain parameter is not needed for CoinMarketCap as it's a data provider
 }
 ```
+
+### Option 2: Using Agent Registration (Recommended)
+
+#### Step 1: Register an agent
+
+Make a POST request to the `/goat/registerAgent` endpoint to create a reusable agent:
+
+```json
+{
+  "walletPrivateKey": "0xYourPrivateKey",
+  "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
+  "coinmarketcapApiKey": "your-coinmarketcap-api-key",
+  "OPENAI_API_KEY": "YourOpenAIApiKey",
+  "modelName": "gpt-4o"
+}
+```
+
+This will return an `agentId` that you can use for subsequent requests.
+
+#### Step 2: Use the registered agent for queries
+
+Make a POST request to the `/goat/generate` endpoint using just the agent ID:
+
+```json
+{
+  "prompt": "Your cryptocurrency data query here",
+  "agentId": "your-registered-agent-id"
+}
+```
+
+This approach is more efficient as you don't need to send your wallet keys and API keys with every request.
 
 ## Chain Compatibility
 
