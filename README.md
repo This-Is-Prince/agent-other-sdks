@@ -9,6 +9,7 @@ This project provides an API endpoint that combines AI capabilities with blockch
 - Access to EVM-compatible network RPC endpoint
 - At least one AI model provider API key (OpenAI, Anthropic, etc.)
 - (Optional) API keys for various plugins
+- (Optional) Nillion credentials for secure private key storage
 
 ## Installation
 
@@ -26,12 +27,17 @@ pnpm install
 
 You'll need to provide the following parameters when making requests to the API:
 
-- `walletPrivateKey`: Your wallet's private key
+- `walletPrivateKey` or `walletPrivateKeyId`: Your wallet's private key or the ID of a key stored in the Nillion vault
 - `rpcProviderUrl`: Base network RPC provider URL
 - `OPENAI_API_KEY`: Your OpenAI API key
 - (Optional) `uniswapBaseUrl`: Uniswap API base URL
 - (Optional) `uniswapApiKey`: Uniswap API key
 - (Optional) `debrigeBaseUrl`: DeBridge API base URL
+
+For Nillion secure vault configuration, set these environment variables:
+- `ORG_SECRET_KEY`: Nillion organization secret key
+- `ORG_DID`: Nillion organization DID (Decentralized Identifier)
+- `SCHEMA_ID` (optional): ID of an existing schema to use
 
 ## Starting the Server
 
@@ -43,7 +49,48 @@ The server will start on port 3000 by default. You can modify this by setting th
 
 ## API Usage
 
-The API provides two endpoints:
+The API provides the following endpoints:
+
+### POST /goat/storePrivateKey
+
+This endpoint allows you to securely store a wallet private key in the Nillion secret vault.
+
+#### Request Format
+
+```json
+{
+  "walletPrivateKey": "0xYourPrivateKey",
+  "description": "Optional description for this key"
+}
+```
+
+#### Response Format
+
+```json
+{
+  "walletPrivateKeyId": "unique-id-for-the-key",
+  "message": "Private key stored successfully"
+}
+```
+
+### GET /goat/listPrivateKeys
+
+This endpoint returns a list of all stored private keys (metadata only, not the actual keys).
+
+#### Response Format
+
+```json
+{
+  "keys": [
+    {
+      "id": "key-id-1",
+      "description": "My Base mainnet wallet",
+      "createdAt": "2023-07-15T12:34:56Z"
+    }
+  ],
+  "count": 1
+}
+```
 
 ### POST /goat/registerAgent
 
@@ -53,7 +100,7 @@ This endpoint allows you to register an agent with all its configuration paramet
 
 ```json
 {
-  "walletPrivateKey": "0xYourPrivateKey",
+  "walletPrivateKeyId": "your-stored-key-id",  // Use stored key ID instead of raw private key
   "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
   "modelName": "gpt-4o",  // Optional: specify which model to use
   
@@ -95,7 +142,7 @@ This endpoint allows you to register an agent with all its configuration paramet
 curl -X POST http://localhost:3000/goat/registerAgent \
   -H "Content-Type: application/json" \
   -d '{
-    "walletPrivateKey": "0xYourPrivateKeyHere",
+    "walletPrivateKeyId": "your-stored-key-id",
     "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
     "OPENAI_API_KEY": "YourOpenAIApiKey",
     "chain": "base"
@@ -160,12 +207,12 @@ The following tokens are supported across different chains:
 }
 ```
 
-##### Using direct configuration (legacy method):
+##### Using direct configuration with stored private key:
 
 ```json
 {
   "prompt": "Your natural language instruction here",
-  "walletPrivateKey": "0xYourPrivateKey",
+  "walletPrivateKeyId": "your-stored-key-id",
   "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
   "modelName": "gpt-4o",  // Optional: specify which model to use
   
@@ -210,7 +257,7 @@ curl -X POST http://localhost:3000/goat/generate \
   -H "Content-Type: application/json" \
   -d '{
     "prompt": "Show my USDC balance",
-    "walletPrivateKey": "0xYourPrivateKeyHere",
+    "walletPrivateKeyId": "your-stored-key-id",
     "rpcProviderUrl": "https://base-mainnet.g.alchemy.com/v2/YourAlchemyKey",
     "OPENAI_API_KEY": "YourOpenAIApiKey",
     "chain": "base"
@@ -240,6 +287,7 @@ The GOAT SDK includes the following plugins, each providing specific blockchain 
 - **CoinGecko** - Crypto market data and information
 - **ENS** - Ethereum Name Service operations
 - **Crossmint** - NFT checkout system for multi-chain purchases
+- **Nillion Secret Vault** - Secure private key storage and management
 
 Detailed documentation for each plugin is available in the [docs](./docs) directory.
 
