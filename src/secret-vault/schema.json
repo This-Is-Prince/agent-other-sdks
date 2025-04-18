@@ -1,0 +1,33 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Web3 Private Keys Vault",
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "format": "uuid",
+          "coerce": true
+        },
+        "private_key": {
+          "type": "object",
+          "properties": {
+            "%share": {
+              "type": "string"
+            }
+          },
+          "required": ["%share"]
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional user-provided description for this private key"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["_id", "private_key"]
+    }
+  }

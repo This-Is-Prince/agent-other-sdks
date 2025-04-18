@@ -26,12 +26,19 @@ import { ens } from "@goat-sdk/plugin-ens";
 import { crossmintHeadlessCheckout } from "@goat-sdk/plugin-crossmint-headless-checkout";
 import { tokens } from '../utils/supported-tokens';
 import { randomUUID } from 'crypto';
+import { SecretVaultService } from '../secret-vault/secretVaultService';
 
 const router: Router = express.Router();
+const secretVaultService = new SecretVaultService();
+
+// Initialize the secret vault service
+secretVaultService.init().catch(err => {
+    console.error('Failed to initialize SecretVaultService:', err.message);
+});
 
 // Map to store registered agents
 interface Agent {
-    walletPrivateKey: string;
+    walletPrivateKeyId: string; // Now stores ID instead of actual private key
     rpcProviderUrl: string;
     uniswapBaseUrl?: string;
     uniswapApiKey?: string;
@@ -59,11 +66,55 @@ interface Agent {
 
 const agentsMap = new Map<string, Agent>();
 
+// Store a private key in the secret vault
+router.post('/storePrivateKey', async (req: express.Request, res: any) => {
+    try {
+        const { walletPrivateKey, description } = req.body;
+
+        if (!walletPrivateKey) {
+            return res.status(400).json({
+                error: 'Missing required parameter: walletPrivateKey'
+            });
+        }
+
+        const result = await secretVaultService.storePrivateKey(walletPrivateKey, description);
+
+        res.json({
+            walletPrivateKeyId: result.id,
+            message: 'Private key stored successfully'
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Internal server error',
+            details: error instanceof Error ? error.message : 'Unknown error'
+        });
+    }
+});
+
+// List all stored private keys (metadata only, not the actual keys)
+router.get('/listPrivateKeys', async (req: express.Request, res: any) => {
+    try {
+        const keys = await secretVaultService.listPrivateKeys();
+        
+        res.json({
+            keys,
+            count: keys.length
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Internal server error',
+            details: error instanceof Error ? error.message : 'Unknown error'
+        });
+    }
+});
+
 // Register a new agent
 router.post('/registerAgent', async (req: express.Request, res: any) => {
     try {
         const {
-            walletPrivateKey,
+            walletPrivateKeyId, // Now takes ID instead of actual private key
             rpcProviderUrl,
             uniswapBaseUrl,
             uniswapApiKey,
@@ -88,11 +139,15 @@ router.post('/registerAgent', async (req: express.Request, res: any) => {
         } = req.body;
 
         // Validate required parameters
-        if (!walletPrivateKey || !rpcProviderUrl) {
+        if (!walletPrivateKeyId || !rpcProviderUrl) {
             return res.status(400).json({
-                error: 'Missing required parameters: walletPrivateKey and rpcProviderUrl are required'
+                error: 'Missing required parameters: walletPrivateKeyId and rpcProviderUrl are required'
             });
         }
+
+        // Retrieve the private key from the secret vault
+        const privateKeyResponse = await secretVaultService.retrievePrivateKey(walletPrivateKeyId);
+        const walletPrivateKey = privateKeyResponse.privateKey;
 
         // Create a unique ID for the agent
         const agentId = randomUUID();
@@ -230,7 +285,7 @@ router.post('/registerAgent', async (req: express.Request, res: any) => {
 
         // Store agent in map
         const agent: Agent = {
-            walletPrivateKey,
+            walletPrivateKeyId,
             rpcProviderUrl,
             uniswapBaseUrl,
             uniswapApiKey,
@@ -279,7 +334,7 @@ router.post('/generate', async (req: express.Request, res: any) => {
             prompt,
             agentId,
             // Keep other parameters for backward compatibility or to create a temporary agent
-            walletPrivateKey,
+            walletPrivateKeyId, // Now takes ID instead of actual private key
             rpcProviderUrl,
             uniswapBaseUrl,
             uniswapApiKey,
@@ -326,11 +381,15 @@ router.post('/generate', async (req: express.Request, res: any) => {
             model = agent.model!;
         } else {
             // For backward compatibility, create a temporary agent
-            if (!walletPrivateKey || !rpcProviderUrl) {
+            if (!walletPrivateKeyId || !rpcProviderUrl) {
                 return res.status(400).json({
-                    error: 'Missing required parameters: either provide an agentId or (walletPrivateKey and rpcProviderUrl)'
+                    error: 'Missing required parameters: either provide an agentId or (walletPrivateKeyId and rpcProviderUrl)'
                 });
             }
+
+            // Retrieve the private key from the secret vault
+            const privateKeyResponse = await secretVaultService.retrievePrivateKey(walletPrivateKeyId);
+            const walletPrivateKey = privateKeyResponse.privateKey;
 
             let _chain: any = base;
 
