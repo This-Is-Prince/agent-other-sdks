@@ -102,9 +102,6 @@ Description: Check if the wallet has enough approval for a token and execute the
 Example prompts:
 - "Check if I've approved USDC for trading on Uniswap"
 - "Do I need to approve 100 DAI before swapping on Uniswap?"
-- "Give Uniswap permission to use my UNI tokens"
-- "Approve 50 LINK tokens for trading on Uniswap"
-- "See if I need to set token allowance for Uniswap to trade my WETH"
 
 ### Get Swap Quote
 
@@ -115,9 +112,6 @@ Description: Get a quote for swapping tokens on Uniswap, showing expected output
 Example prompts:
 - "How much ETH will I get for 1000 USDC on Uniswap?"
 - "Get a quote for swapping 0.5 ETH to USDC"
-- "What's the current exchange rate between DAI and WETH on Uniswap?"
-- "Check the price impact for trading 100 UNI to ETH"
-- "How much LINK can I get for 50 USDC on Base?"
 
 ### Swap Tokens
 
@@ -128,9 +122,6 @@ Description: Execute a token swap on Uniswap. This tool will automatically handl
 Example prompts:
 - "Swap 100 USDC for ETH on Uniswap"
 - "Trade 0.5 ETH for USDC using Uniswap"
-- "Exchange my DAI for WETH on Uniswap"
-- "Use Uniswap to convert 50 UNI tokens to ETH"
-- "Swap 200 LINK for USDC on Base using Uniswap"
 
 ## API Response Examples
 

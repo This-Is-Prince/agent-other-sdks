@@ -88,9 +88,6 @@ Description: Deposit ETH into Renzo to receive ezETH (liquid staked ETH).
 Example prompts:
 - "Stake 0.5 ETH on Renzo"
 - "Deposit 1 ETH into Renzo protocol"
-- "Convert 0.1 ETH to ezETH on Base"
-- "Stake my ETH with Renzo on Arbitrum"
-- "Swap 2 ETH for ezETH tokens on Mode"
 
 ### Deposit ERC20 LST into Renzo
 
@@ -101,9 +98,6 @@ Description: Deposit ERC20 Liquid Staking Tokens into Renzo (requires prior appr
 Example prompts:
 - "Deposit 100 stETH to Renzo"
 - "Convert my rETH tokens to ezETH via Renzo"
-- "Stake my liquid staking tokens in Renzo"
-- "Deposit 50 cbETH tokens to Renzo protocol"
-- "Swap my LST tokens for ezETH on Base"
 
 ### Check ezETH Balance
 
@@ -127,9 +121,6 @@ Description: Get the Renzo deposit contract address for the current chain.
 Example prompts:
 - "What's the Renzo deposit address on Base?"
 - "Show me the contract address for depositing into Renzo"
-- "Get the Renzo deposit contract address for Arbitrum"
-- "What address should I send ETH to for Renzo staking on Mode?"
-- "Display the Renzo deposit smart contract on Linea"
 
 ## API Response Examples
 

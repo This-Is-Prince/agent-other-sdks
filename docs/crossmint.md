@@ -88,11 +88,7 @@ NFTs can be purchased on any of the source chains listed above, regardless of wh
 Description: Buy a token such as an NFT, SFT or item tokenized by them, listed on any blockchain. Supports various payment methods and can deliver to either a wallet address or email recipient.
 
 Example prompts:
-- "Buy an NFT from collection 0x123... on Ethereum and send it to my wallet"
-- "Purchase NFT using USDC on Polygon and deliver to bob@example.com"
-- "Buy a Solana NFT from collection ABC and send to my address"
-- "Purchase a Base NFT with physical item delivery to my US address"
-- "Buy an NFT from collection XYZ on Ethereum Sepolia testnet"
+- "Purchase NFT from collection:f165af36-7b65-41bb-8617-4c4acf553c5e using USDC on Polygon. Recipient address is 0xb98Ee84a0dcECf67399d0bca3C28A105EA0268e5 and Payer address is 0xc6DDE7CE20DfcCF6A2b8c998B066a3ce48911311"
 
 ## Parameters Format
 

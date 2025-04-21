@@ -100,11 +100,8 @@ The DeBridge plugin provides tools for cross-chain operations:
 Description: Get a quote for bridging tokens between chains.
 
 Example prompts:
-- "How much will it cost to bridge 100 USDC from Base to Polygon?"
 - "Get a quote for transferring 50 USDT from Polygon to BNB Chain"
-- "What's the fee for bridging 25 DAI from Base to Polygon?"
-- "Show me the gas cost for moving USDC from Base to BNB Chain"
-- "Calculate fees for transferring 1000 LINK from Polygon to Base"
+- "Get a quote for transferring 20 USDC from Polygon to Ethereum"
 
 ### Create Bridge Order
 
@@ -115,9 +112,6 @@ Description: Create a bridge order for transferring tokens between chains.
 Example prompts:
 - "Bridge 100 USDC from Base to Polygon"
 - "Transfer 50 USDT from Polygon to BNB Chain"
-- "Send 25 DAI from Base to Polygon"
-- "Move 1000 LINK from Polygon to Base"
-- "Bridge 10 WETH from Base to Polygon"
 
 ### Get Token Information
 
@@ -127,10 +121,7 @@ Description: Retrieve information about tokens on various chains.
 
 Example prompts:
 - "Show me information about USDC on Base"
-- "What's the contract address of WETH on Polygon?"
 - "Get token details for USDT on BNB Chain"
-- "Show me LINK information across all supported chains"
-- "What are the decimals for DAI on Base?"
 
 ### Get Supported Chains
 
@@ -141,9 +132,6 @@ Description: List all supported blockchain networks.
 Example prompts:
 - "Which blockchains does DeBridge support?"
 - "What chains can I bridge tokens between?"
-- "Show me all the networks supported by DeBridge"
-- "List the available chains for cross-chain transfers"
-- "What blockchains can I use with DeBridge?"
 
 ### Execute Bridge Transaction
 
@@ -154,9 +142,6 @@ Description: Execute prepared bridge transactions.
 Example prompts:
 - "Execute the bridge transaction to send 100 USDC to Polygon"
 - "Complete my token bridge from Base to BNB Chain"
-- "Finalize the cross-chain transfer"
-- "Submit my prepared bridge transaction"
-- "Execute the pending bridge order"
 
 ### Check Transaction Status
 
@@ -167,9 +152,6 @@ Description: Check the status of executed transactions.
 Example prompts:
 - "Check the status of my bridge transaction"
 - "Has my token transfer from Base to Polygon completed?"
-- "Is my cross-chain transaction still pending?"
-- "What's the status of my Polygon to BNB Chain bridge?"
-- "Has my bridge transaction been confirmed yet?"
 
 ## API Response Examples
 

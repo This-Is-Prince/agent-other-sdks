@@ -66,7 +66,7 @@ export class SecretVaultService {
       const cleanedKey = privateKey.startsWith('0x') ? privateKey.slice(2) : privateKey;
       
       const data = [{
-        private_key: { '%share': cleanedKey },
+        private_key: { '%allot': cleanedKey },
         description: description || 'Private key stored via SecretVaultService',
         created_at: new Date().toISOString()
       }];

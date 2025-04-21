@@ -80,11 +80,6 @@ Description: Resolve an ENS domain name to its corresponding Ethereum address.
 Example prompts:
 - "What is the Ethereum address for vitalik.eth?"
 - "Resolve the ENS name nick.eth"
-- "Convert the ENS domain uniswap.eth to an Ethereum address"
-- "Look up the wallet address for lens.eth"
-- "Find the ETH address linked to opensea.eth"
-- "What address does goat.eth point to?"
-- "Get the wallet address for ethereum.eth"
 
 ## API Response Example
 

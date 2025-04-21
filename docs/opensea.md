@@ -88,9 +88,6 @@ Description: Get statistics for an NFT collection, such as floor price, volume, 
 Example prompts:
 - "What is the floor price of Bored Ape Yacht Club?"
 - "Show me statistics for the Azuki collection"
-- "What's the trading volume for CryptoPunks?"
-- "Get me the floor price and volume for Doodles"
-- "How many items are in the BAYC collection?"
 
 ### Get NFT Sales
 
@@ -101,9 +98,6 @@ Description: Get recent NFT sales for a collection.
 Example prompts:
 - "Show me recent sales from the Bored Ape Yacht Club collection"
 - "What NFTs were recently sold in the CryptoPunks collection?"
-- "List the last 5 sales of Azuki NFTs"
-- "What was the most recent Doodles sale?"
-- "Show me the recent transaction history for BAYC NFTs"
 
 ## API Response Examples
 

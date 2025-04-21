@@ -86,9 +86,6 @@ Description: Get the events on Polymarket, including their markets, with optiona
 Example prompts:
 - "Show me the active prediction markets on Polymarket"
 - "What are the trending events on Polymarket?"
-- "Find prediction markets about the 2024 US election"
-- "Show me markets with the highest liquidity on Polymarket"
-- "Get a list of crypto-related prediction markets on Polymarket"
 
 ### Get Polymarket Market Info
 
@@ -99,9 +96,6 @@ Description: Get the info of a specific market on Polymarket.
 Example prompts:
 - "Show me details about the 'Will Trump win the 2024 election?' market"
 - "What are the current odds for Bitcoin reaching $100k by end of year?"
-- "Get information about the market with ID 12345"
-- "Tell me more about the market for 'Will Ethereum switch to PoS in 2023?'"
-- "What's the liquidity in the Fed interest rate prediction market?"
 
 ### Create Order on Polymarket
 
@@ -112,9 +106,6 @@ Description: Create an order on Polymarket.
 Example prompts:
 - "Bet $50 on 'Yes' for Trump winning the election"
 - "Place an order to buy 100 shares of 'No' in the BTC reaching $100k market"
-- "Create a GTC order to buy 25 shares at price 0.7 in the market about Ethereum's price"
-- "Make a prediction that AI regulation will pass with $100"
-- "Bet 50 USDC that the Fed will not raise rates"
 
 ### Get Active Polymarket Orders
 
@@ -125,9 +116,6 @@ Description: Get the active orders on Polymarket.
 Example prompts:
 - "Show me all my active orders on Polymarket"
 - "What bets do I currently have open?"
-- "List my pending Polymarket positions"
-- "Check my active predictions on Polymarket"
-- "Show my open orders for the election market"
 
 ### Cancel Polymarket Order
 
@@ -138,9 +126,6 @@ Description: Cancel an order on Polymarket.
 Example prompts:
 - "Cancel my order with ID 12345"
 - "Remove my bet on the Trump election market"
-- "Cancel my pending prediction about Bitcoin price"
-- "Withdraw my order from the Fed interest rate market"
-- "Delete my unmatched bet from Polymarket"
 
 ### Cancel All Polymarket Orders
 
@@ -151,9 +136,6 @@ Description: Cancel all orders on Polymarket.
 Example prompts:
 - "Cancel all my orders on Polymarket"
 - "Remove all my active bets"
-- "Withdraw all my pending predictions"
-- "Clear all my open positions on Polymarket"
-- "Cancel every order I have active"
 
 ## API Response Examples
 
