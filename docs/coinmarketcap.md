@@ -80,9 +80,6 @@ Description: Fetch the latest cryptocurrency listings with market data including
 Example prompts:
 - "Show me the top 10 cryptocurrencies by market cap"
 - "List the most popular cryptocurrencies"
-- "What are the top 20 coins sorted by volume?"
-- "Show me DeFi tokens with highest market cap"
-- "List cryptocurrencies with price between $1 and $10"
 
 ### Get Cryptocurrency Quotes
 
@@ -93,9 +90,6 @@ Description: Get the latest market quotes for one or more cryptocurrencies, incl
 Example prompts:
 - "What is the current price of Bitcoin and Ethereum?"
 - "Get quotes for SOL, ADA, and DOT in USD"
-- "Show detailed market data for Ethereum"
-- "What's the current market cap of Ripple?"
-- "Compare the prices of BTC, ETH, and SOL"
 
 ### Get Exchange Listings
 
@@ -106,9 +100,6 @@ Description: Fetch the latest cryptocurrency exchange listings with market data 
 Example prompts:
 - "List the top cryptocurrency exchanges by volume"
 - "What are the most popular crypto exchanges?"
-- "Show me exchanges with highest liquidity"
-- "Compare trading platforms by daily volume"
-- "Which exchange has the most markets available?"
 
 ### Get Exchange Quotes
 
@@ -119,9 +110,6 @@ Description: Get the latest market data for one or more exchanges including trad
 Example prompts:
 - "Show me detailed information about Binance"
 - "What's the 24-hour trading volume on Coinbase?"
-- "Compare trading volumes between Kraken and Huobi"
-- "Get market data for FTX exchange"
-- "How many markets does OKX have?"
 
 ### Get Latest Content
 
@@ -132,9 +120,6 @@ Description: Fetch the latest cryptocurrency news, articles, and market analysis
 Example prompts:
 - "Get the latest news about Bitcoin"
 - "Show me recent articles about crypto regulation"
-- "What's the latest news on Ethereum?"
-- "Find market analysis content for DeFi"
-- "Get recent news about NFTs"
 
 ### Get Cryptocurrency Map
 
@@ -145,9 +130,6 @@ Description: Get a mapping of all cryptocurrencies with unique CoinMarketCap IDs
 Example prompts:
 - "What is the CoinMarketCap ID for Ethereum?"
 - "Find all coins with 'bit' in their name"
-- "Show me a list of all active cryptocurrencies"
-- "Get information about the symbol ADA"
-- "Map cryptocurrency symbols to their unique IDs"
 
 ### Get Cryptocurrency OHLCV Data
 
@@ -158,9 +140,6 @@ Description: Get the latest OHLCV (Open, High, Low, Close, Volume) values for cr
 Example prompts:
 - "What's the OHLCV data for Bitcoin today?"
 - "Show me the opening and closing prices for ETH"
-- "Get candlestick data for Solana"
-- "What was Bitcoin's trading range today?"
-- "Show volume data for the top cryptocurrencies"
 
 ### Get Trending Cryptocurrencies
 
@@ -171,9 +150,6 @@ Description: Get the latest trending cryptocurrencies based on CoinMarketCap use
 Example prompts:
 - "What cryptocurrencies are trending right now?"
 - "Show me the hot coins on CoinMarketCap"
-- "Which tokens are getting attention today?"
-- "What's trending in the last 24 hours?"
-- "Show me trending coins for this week"
 
 ### Get Most Visited Cryptocurrencies
 
@@ -184,9 +160,6 @@ Description: Get the most visited cryptocurrencies on CoinMarketCap over a speci
 Example prompts:
 - "Which coins are most viewed on CoinMarketCap?"
 - "Show me the most popular cryptocurrencies by page views"
-- "What are users looking at most on CoinMarketCap?"
-- "Which crypto assets get the most attention?"
-- "Show the most visited coins in the past week"
 
 ### Get Cryptocurrency Gainers and Losers
 
@@ -197,9 +170,6 @@ Description: Get the top gaining and losing cryptocurrencies based on price chan
 Example prompts:
 - "Which cryptocurrencies gained the most in the last 24 hours?"
 - "Show me the biggest losers today"
-- "What coins had the largest price increases this week?"
-- "List the top 10 gainers and losers"
-- "Which tokens dropped the most in value today?"
 
 ## API Response Examples
 
